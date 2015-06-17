@@ -24,11 +24,15 @@ public class CharacterControllerLogic : MonoBehaviour {
 	private float charAngle = 0;
 	private float horizontal = 0;
 	private float vertical = 0;
+	private bool run = false;
 	private AnimatorStateInfo stateInfo;
 	private AnimatorTransitionInfo transInfo;
 
 	private Rigidbody rigidbody;
 
+	private int m_IDLE = 0;
+	private int m_WALK = 0;
+	private int m_RUN = 0;
 	private int m_LocomotionId = 0;
 	private int m_LocomotionPivotLId = 0;
 	private int m_LocomotionPivotRId = 0;
@@ -58,6 +62,9 @@ public class CharacterControllerLogic : MonoBehaviour {
 			animator.SetLayerWeight(1,1);		
 		}
 
+		m_IDLE = Animator.StringToHash("Base Layer.IDLE");
+		m_WALK = Animator.StringToHash("Base Layer.WALK");
+		m_RUN = Animator.StringToHash("Base Layer.RUN");
 		m_LocomotionId = Animator.StringToHash ("Base Layer.Locomotion");
 		m_LocomotionPivotLId = Animator.StringToHash ("Base Layer.LocomotionPivotL");
 		m_LocomotionPivotRId = Animator.StringToHash ("Base Layer.LocomotionPivotR");
@@ -78,6 +85,7 @@ public class CharacterControllerLogic : MonoBehaviour {
 			// pull values from input device
 			horizontal = Input.GetAxis ("Horizontal");
 			vertical = Input.GetAxis ("Vertical");
+			run = Input.GetButton ("Button A");
 
 			charAngle = 0f;
 			direction = 0f;
@@ -87,6 +95,7 @@ public class CharacterControllerLogic : MonoBehaviour {
 			
 			animator.SetFloat("Speed", speed, speedDampTime, Time.deltaTime);
 			animator.SetFloat("Direction", direction, directionDampTime, Time.deltaTime);
+			animator.SetBool("Run", run);
 
 			if (speed > LocomotionThreshold){
 				if (!IsInPivot()){
@@ -96,12 +105,8 @@ public class CharacterControllerLogic : MonoBehaviour {
 			if (speed < LocomotionThreshold && Mathf.Abs(horizontal) < 0.05f){
 				animator.SetFloat("Direction", 0f);
 				animator.SetFloat("Angle", 0f);
-				// TODO: only temporary / move the old man
-				charAngle = 0;
 			}
 
-			// TODO: only temporary / move the old man
-			//if (charAngle < -0.1 || charAngle > 0.1) this.transform.Rotate (new Vector3(0, Mathf.Lerp(0, charAngle, Time.deltaTime), 0));
 		}
 	}
 
@@ -112,13 +117,6 @@ public class CharacterControllerLogic : MonoBehaviour {
 			this.transform.rotation = (this.transform.rotation * deltaRotation);
 		}
 
-		if (((direction >= 0 && horizontal >= 0) || (direction < 0 && horizontal < 0))) {
-			Vector3 rotationAmount = Vector3.Lerp (Vector3.zero, new Vector3(0,rotationDegreesPerSecond * (horizontal < 0 ? -1f : 1f), 0), Mathf.Abs(horizontal));
-			Quaternion deltaRotation = Quaternion.Euler (rotationAmount * Time.deltaTime);
-			this.transform.rotation = (this.transform.rotation * deltaRotation);
-		}
-
-		if (speed > 0.23) rigidbody.MovePosition(transform.position + transform.forward * (1 - Mathf.Abs(charAngle) / 180f) * Time.deltaTime * speed * speedMultiplier);
 	}
 
 	void LateUpdate() {
@@ -170,7 +168,7 @@ public class CharacterControllerLogic : MonoBehaviour {
 	#region functions
 
 	public bool IsInLocomotion(){
-		return stateInfo.nameHash == m_LocomotionId;
+		return stateInfo.nameHash == m_LocomotionId || stateInfo.nameHash == m_WALK || stateInfo.nameHash == m_RUN;
 	}
 
 	public bool IsInPivot(){
