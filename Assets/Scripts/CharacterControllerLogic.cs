@@ -20,6 +20,14 @@ public class CharacterControllerLogic : MonoBehaviour {
 	private float speedMultiplier = 10f;
 	[SerializeField]
 	private float rotationDampTime = .1f;
+	[SerializeField]
+	private LayerMask kickableLayers;
+	[SerializeField]
+	private Transform kickArea;
+	[SerializeField]
+	private float kickRadius = .35f;
+	[SerializeField]
+	private float kickForce = 10f;
 
 	// private global only
 	private float direction = 0;
@@ -37,6 +45,9 @@ public class CharacterControllerLogic : MonoBehaviour {
 	private int m_IDLE = 0;
 	private int m_WALK = 0;
 	private int m_RUN = 0;
+	private int m_AIM = 0;
+	private int m_AIMING = 0;
+	private int m_KICK = 0;
 	private int m_LocomotionId = 0;
 	private int m_LocomotionPivotLId = 0;
 	private int m_LocomotionPivotRId = 0;
@@ -69,6 +80,9 @@ public class CharacterControllerLogic : MonoBehaviour {
 		m_IDLE = Animator.StringToHash("Base Layer.IDLE");
 		m_WALK = Animator.StringToHash("Base Layer.WALK");
 		m_RUN = Animator.StringToHash("Base Layer.RUN");
+		m_AIM = Animator.StringToHash("Base Layer.AIM");
+		m_AIMING = Animator.StringToHash("Base Layer.AIMING");
+		m_KICK = Animator.StringToHash("Base Layer.KICK");
 		m_LocomotionId = Animator.StringToHash ("Base Layer.Locomotion");
 		m_LocomotionPivotLId = Animator.StringToHash ("Base Layer.LocomotionPivotL");
 		m_LocomotionPivotRId = Animator.StringToHash ("Base Layer.LocomotionPivotR");
@@ -111,25 +125,37 @@ public class CharacterControllerLogic : MonoBehaviour {
 
 //			Debug.Log (Vector3.Cross(this.transform.right, camera.transform.forward).y);
 
+			// Handle other button inputs
+			if (Input.GetButtonDown("Button A")) animator.SetBool ("Kick", true);
+			if (Input.GetButtonUp("Button A")) animator.SetBool ("Kick", false); // Start kicking only when AIM animation has reached its end
+
+//			// Stop kick at end of animation
+//			if (stateInfo.nameHash == m_KICK) animator.SetBool("Kick", false);
 		}
 	}
 
 	void FixedUpdate() {
+		// Only rotate when moving
 		if (IsInLocomotion ()) {
+			// Reset everything first
 			deltaRotation = Quaternion.identity;
-			// Rotation
-			if (((direction >= 0 && horizontal >= 0) || (direction < 0 && horizontal < 0))) {
+			rotationAmount = Vector3.zero;
+
+			// Calculate rotation
+			if (((direction > 0.1f && horizontal > 0) || (direction < -0.1f && horizontal < 0))) {
 				// Not facing camera
-				Debug.Log ("Not facing camera");
 				rotationAmount = Vector3.Lerp (Vector3.zero, new Vector3 (0, rotationDegreesPerSecond * (horizontal < 0 ? -1f : 1f), 0), Mathf.Abs (horizontal));
 			} 
-		else if (((direction >= 0 && horizontal < 0) || (direction < 0 && horizontal >= 0))) {
+			else if (((direction > 0.1f && horizontal < 0) || (direction < -0.1f && horizontal > 0))) {
 				// Facing camera
-				Debug.Log ("Facing camera");
 				rotationAmount = Vector3.Lerp (Vector3.zero, new Vector3 (0, rotationDegreesPerSecond * (horizontal < 0 ? 1f : -1f), 0), Mathf.Abs (horizontal));
 			}
-		deltaRotation = Quaternion.Euler (rotationAmount * Time.deltaTime);
-//		this.transform.rotation = (this.transform.rotation * deltaRotation);
+			else if (Mathf.Abs(direction) > 0.1f){
+				// Turn around
+				rotationAmount = Vector3.Lerp (Vector3.zero, new Vector3 (0, rotationDegreesPerSecond * (direction < 0 ? -1f : 1f), 0), Mathf.Abs (vertical));
+			}
+			// Rotate!
+			deltaRotation = Quaternion.Euler (rotationAmount * Time.deltaTime);
 			this.transform.rotation = Quaternion.Slerp(this.transform.rotation, this.transform.rotation * deltaRotation, Time.deltaTime * rotationAmount.sqrMagnitude);
 		}
 	}
@@ -177,13 +203,35 @@ public class CharacterControllerLogic : MonoBehaviour {
 		directionOut = angleRootToMove * directionSpeed;
 	}
 
+	public void Kick(){
+		RaycastHit[] sphereCast = Physics.SphereCastAll(kickArea.position, kickRadius, Vector3.one * kickRadius, kickableLayers);
+		if (sphereCast.Length > 0)
+			GetComponent<CharacterAudioController> ().KickPlayAudio (); // Play audio when hitting at least one object
+
+			foreach (RaycastHit hit in sphereCast){
+				if (hit.transform.gameObject.GetComponent<Rigidbody>() && hit.transform.gameObject.tag != "Player"){
+					Rigidbody hitRigidbody = hit.transform.gameObject.GetComponent<Rigidbody>();
+					hitRigidbody.AddForce((hit.transform.position - this.transform.position).normalized * kickForce, ForceMode.Impulse);
+				}
+			}
+//		if (Physics.Raycast(this.transform.position, this.transform.forward, out hit, kickableLayers)){
+//			if (hit.distance <= kickReach && hit.transform.GetComponent<Rigidbody>()){
+//				// Kick
+//				Debug.Log("Raycast hit " + hit.transform.gameObject.name);
+//				Rigidbody hitRigidbody = hit.transform.GetComponent<Rigidbody>();
+//				hitRigidbody.AddForce((hit.transform.position - this.transform.position).normalized * kickForce, ForceMode.Impulse);
+//				Debug.Log("Kick!");
+//			}
+//		}
+	}
+
 	#endregion
 
 
 	#region functions
 
 	public bool IsInLocomotion(){
-		return stateInfo.nameHash == m_LocomotionId || stateInfo.nameHash == m_WALK || stateInfo.nameHash == m_RUN;
+		return stateInfo.nameHash == m_LocomotionId || stateInfo.nameHash == m_WALK || stateInfo.nameHash == m_RUN || stateInfo.nameHash == m_AIMING;
 	}
 
 	public bool IsInPivot(){
