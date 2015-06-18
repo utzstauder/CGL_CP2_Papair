@@ -75,7 +75,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 	private float distanceAwayFree;
 	private float distanceUpFree;
 	private Vector2 rightStickPrevFrame = Vector2.zero;
-
+	
 	// smoothing and damping
 	private Vector3 velocityCamSmooth = Vector3.zero;
 	[SerializeField]
@@ -126,7 +126,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 		firstPersonCamPos = new CameraPosition ();
 		firstPersonCamPos.Init (
 			"First Person Camera",
-			new Vector3 (0f, 1.2f, .2f),
+			new Vector3 (0f, 0.3f, 0.32f),
 			new GameObject ().transform,
 			followTransform.transform
 		);

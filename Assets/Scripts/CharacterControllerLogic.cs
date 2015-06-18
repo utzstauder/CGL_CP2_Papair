@@ -18,15 +18,19 @@ public class CharacterControllerLogic : MonoBehaviour {
 	private float speedDampTime = .05f;
 	[SerializeField]
 	private float speedMultiplier = 10f;
+	[SerializeField]
+	private float rotationDampTime = .1f;
 
 	// private global only
 	private float direction = 0;
 	private float charAngle = 0;
 	private float horizontal = 0;
 	private float vertical = 0;
-	private bool run = false;
 	private AnimatorStateInfo stateInfo;
 	private AnimatorTransitionInfo transInfo;
+
+	Vector3 rotationAmount = Vector3.zero;
+	Quaternion deltaRotation = Quaternion.identity;
 
 	private Rigidbody rigidbody;
 
@@ -85,7 +89,6 @@ public class CharacterControllerLogic : MonoBehaviour {
 			// pull values from input device
 			horizontal = Input.GetAxis ("Horizontal");
 			vertical = Input.GetAxis ("Vertical");
-			run = Input.GetButton ("Button A");
 
 			charAngle = 0f;
 			direction = 0f;
@@ -95,28 +98,40 @@ public class CharacterControllerLogic : MonoBehaviour {
 			
 			animator.SetFloat("Speed", speed, speedDampTime, Time.deltaTime);
 			animator.SetFloat("Direction", direction, directionDampTime, Time.deltaTime);
-			animator.SetBool("Run", run);
 
 			if (speed > LocomotionThreshold){
 				if (!IsInPivot()){
 					animator.SetFloat("Angle", charAngle);
 				}
 			}
-			if (speed < LocomotionThreshold && Mathf.Abs(horizontal) < 0.05f){
+			if (speed < LocomotionThreshold && Mathf.Abs(horizontal) < 0.1f){
 				animator.SetFloat("Direction", 0f);
 				animator.SetFloat("Angle", 0f);
 			}
+
+//			Debug.Log (Vector3.Cross(this.transform.right, camera.transform.forward).y);
 
 		}
 	}
 
 	void FixedUpdate() {
-		if (IsInLocomotion() && ((direction >= 0 && horizontal >= 0) || (direction < 0 && horizontal < 0))) {
-			Vector3 rotationAmount = Vector3.Lerp (Vector3.zero, new Vector3(0,rotationDegreesPerSecond * (horizontal < 0 ? -1f : 1f), 0), Mathf.Abs(horizontal));
-			Quaternion deltaRotation = Quaternion.Euler (rotationAmount * Time.deltaTime);
-			this.transform.rotation = (this.transform.rotation * deltaRotation);
+		if (IsInLocomotion ()) {
+			deltaRotation = Quaternion.identity;
+			// Rotation
+			if (((direction >= 0 && horizontal >= 0) || (direction < 0 && horizontal < 0))) {
+				// Not facing camera
+				Debug.Log ("Not facing camera");
+				rotationAmount = Vector3.Lerp (Vector3.zero, new Vector3 (0, rotationDegreesPerSecond * (horizontal < 0 ? -1f : 1f), 0), Mathf.Abs (horizontal));
+			} 
+		else if (((direction >= 0 && horizontal < 0) || (direction < 0 && horizontal >= 0))) {
+				// Facing camera
+				Debug.Log ("Facing camera");
+				rotationAmount = Vector3.Lerp (Vector3.zero, new Vector3 (0, rotationDegreesPerSecond * (horizontal < 0 ? 1f : -1f), 0), Mathf.Abs (horizontal));
+			}
+		deltaRotation = Quaternion.Euler (rotationAmount * Time.deltaTime);
+//		this.transform.rotation = (this.transform.rotation * deltaRotation);
+			this.transform.rotation = Quaternion.Slerp(this.transform.rotation, this.transform.rotation * deltaRotation, Time.deltaTime * rotationAmount.sqrMagnitude);
 		}
-
 	}
 
 	void LateUpdate() {
@@ -144,9 +159,9 @@ public class CharacterControllerLogic : MonoBehaviour {
 		Vector3 axisSign = Vector3.Cross (moveDirection, rootDirection);
 
 		Debug.DrawRay (new Vector3 (root.position.x, root.position.y + 2f, root.position.z), moveDirection, Color.green);
-	//	Debug.DrawRay (new Vector3 (root.position.x, root.position.y + 2f, root.position.z), axisSign, Color.red);
+		Debug.DrawRay (new Vector3 (root.position.x, root.position.y + 2f, root.position.z), axisSign, Color.red);
 		Debug.DrawRay (new Vector3 (root.position.x, root.position.y + 2f, root.position.z), rootDirection, Color.magenta);
-	//	Debug.DrawRay (new Vector3 (root.position.x, root.position.y + 2f, root.position.z), stickDirection, Color.blue);
+		Debug.DrawRay (new Vector3 (root.position.x, root.position.y + 2f, root.position.z), stickDirection, Color.blue);
 
 		float angleRootToMove = Vector3.Angle (rootDirection, moveDirection) * (axisSign.y >= 0 ? -1f : 1f);
 
