@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityStandardAssets.ImageEffects;
 
 struct CameraPosition{
 	// Position to align camera to
@@ -63,6 +64,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 	private Vector3 lookDirection;
 	private Vector3 currentLookDirection;
 	private Vector3 targetPosition;
+	private Vector3 targetDirection = Vector3.zero;
 	private BarsEffect barEffect;
 	private float xAxisRot = 0f;
 	private CameraPosition firstPersonCamPos;
@@ -80,9 +82,16 @@ public class ThirdPersonCamera : MonoBehaviour {
 	private Vector3 velocityCamSmooth = Vector3.zero;
 	[SerializeField]
 	private float camSmoothDampTime = .1f;
+	private float initialSmoothDampTime;
 	private Vector3 velocityLookDirection = Vector3.zero;
 	[SerializeField]
 	private float lookDirectionDampTime = .1f;
+
+	// image effects
+	private DepthOfField dof;
+	private float initialFocalLength;
+	private float initialFocalSize;
+	private float initialAperture;
 
 	#endregion
 
@@ -108,6 +117,11 @@ public class ThirdPersonCamera : MonoBehaviour {
 	}
 
 	void Start () {
+		initialSmoothDampTime = camSmoothDampTime;
+		dof = GetComponent<DepthOfField> ();
+		initialFocalLength = dof.focalLength;
+		initialFocalSize = dof.focalSize;
+		initialAperture = dof.aperture;
 
 		parentRig = this.transform; // .parent
 		if (parentRig == null){
@@ -161,11 +175,15 @@ public class ThirdPersonCamera : MonoBehaviour {
 		// Determine camera state
 		// Target
 		if (Input.GetButton ("Button L")) {
+			// set initial direction when entering target mode
+			if (targetDirection == Vector3.zero) targetDirection = followTransform.forward;
+
 				barEffect.coverage = Mathf.SmoothStep (barEffect.coverage, widescreen, targetingTime);
 
 				camState = CamStates.Target;
 			} else {
 			barEffect.coverage = Mathf.SmoothStep(barEffect.coverage, 0f, targetingTime);
+			targetDirection = Vector3.zero;
 
 			// First Person View
 			if (rightY > firstPersonThreshold && camState != CamStates.Free && !follow.IsInLocomotion()){
@@ -212,12 +230,18 @@ public class ThirdPersonCamera : MonoBehaviour {
 
 			case CamStates.Target:
 				ResetCamera();
-				lookDirection = followTransform.forward;
+				camSmoothDampTime = 0.05f;
+				lookDirection = targetDirection;
 				targetPosition = characterOffset + followTransform.up * distanceUp - lookDirection * distanceAway;
 
 			break;
 
 			case CamStates.FirstPerson:
+				dof.focalTransform = null;
+				dof.focalLength = 6f;
+				dof.focalSize = 8f;
+				dof.aperture = 20f;
+
 				// Looking up and down
 				// Calculate the amount of rotation and apply to the firstPersonCamPos GameObject
 				xAxisRot -= (leftY * firstPersonLookSpeed);
@@ -327,6 +351,12 @@ public class ThirdPersonCamera : MonoBehaviour {
 	}
 
 	private void ResetCamera(){
+		dof.focalTransform = followTransform;
+		dof.focalLength = initialFocalLength;
+		dof.focalSize = initialFocalSize;
+		dof.aperture = initialAperture;
+
+		camSmoothDampTime = initialSmoothDampTime;
 		lookWeight = Mathf.Lerp (lookWeight, 0, Time.deltaTime * firstPersonLookSpeed);
 		transform.localRotation = Quaternion.Lerp (transform.localRotation, Quaternion.identity, Time.deltaTime);
 
