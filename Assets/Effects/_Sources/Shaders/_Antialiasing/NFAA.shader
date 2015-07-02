@@ -9,6 +9,7 @@ Properties {
 CGINCLUDE
 
 #include "UnityCG.cginc"
+#pragma target 3.0
 
 uniform sampler2D _MainTex;
 uniform float4 _MainTex_TexelSize;

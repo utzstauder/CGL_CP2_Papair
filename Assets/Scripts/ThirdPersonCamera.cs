@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityStandardAssets.ImageEffects;
 
@@ -40,9 +40,9 @@ public class ThirdPersonCamera : MonoBehaviour {
 	[SerializeField]
 	private float smooth;
 	[SerializeField]
-	private Transform followTransform;
+	public Transform followTransform;
 	[SerializeField]
-	private CharacterControllerLogic follow;
+	public CharacterControllerLogic follow;
 	[SerializeField]
 	private float widescreen = .2f;
 	[SerializeField]
@@ -68,7 +68,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 	private BarsEffect barEffect;
 	private float xAxisRot = 0f;
 	private CameraPosition firstPersonCamPos;
-	private float lookWeight = 0f;
+	//private float lookWeight = 0f;
 	[SerializeField]
 	private float firstPersonLookSpeed = 1.5f;
 	[SerializeField]
@@ -93,6 +93,9 @@ public class ThirdPersonCamera : MonoBehaviour {
 	private float initialFocalSize;
 	private float initialAperture;
 
+	// references
+	private GameManagerScript gameManager;
+
 	#endregion
 
 
@@ -102,7 +105,9 @@ public class ThirdPersonCamera : MonoBehaviour {
 		Behind,
 		FirstPerson,
 		Target,
-		Free
+		Free,
+		FixedPosition,
+		Menu
 	}
 
 	public CamStates camState = CamStates.Behind;
@@ -112,6 +117,8 @@ public class ThirdPersonCamera : MonoBehaviour {
 
 	#region initialization
 	void Awake() {
+		DontDestroyOnLoad (this.transform.parent.gameObject);
+		gameManager = GameObject.Find ("GameManager").GetComponent<GameManagerScript> ();
 	//	followTransform = GameObject.FindWithTag ("Player").transform;
 	//	follow = followTransform.parent.GetComponent<CharacterControllerLogic>();
 	}
@@ -173,8 +180,23 @@ public class ThirdPersonCamera : MonoBehaviour {
 		Vector3 targetPosition = Vector3.zero;
 
 		// Determine camera state
-		// Target
-		if (Input.GetButton ("Button L")) {
+		// Fixed Position
+		if (follow.cameraAnchorTransform != null && camState != CamStates.FirstPerson) {
+			camState = CamStates.FixedPosition;
+
+			// First Person View also possible while in Fixed Position
+			if (rightY > firstPersonThreshold && camState != CamStates.Free && !follow.IsInLocomotion()){
+				// Reset look before entering the first person mode
+				xAxisRot = 0;
+				//lookWeight = 0;
+				camState = CamStates.FirstPerson;
+			}
+
+			// Remove barsEffect
+			barEffect.coverage = Mathf.SmoothStep(barEffect.coverage, 0f, targetingTime);
+
+		}
+		else if (Input.GetButton ("Button L")) { // Target
 			// set initial direction when entering target mode
 			if (targetDirection == Vector3.zero) targetDirection = followTransform.forward;
 
@@ -186,27 +208,33 @@ public class ThirdPersonCamera : MonoBehaviour {
 			targetDirection = Vector3.zero;
 
 			// First Person View
-			if (rightY > firstPersonThreshold && camState != CamStates.Free && !follow.IsInLocomotion()){
+			if (rightY > firstPersonThreshold && camState != CamStates.Free && !follow.IsInLocomotion() && camState != CamStates.FixedPosition){
 				// Reset look before entering the first person mode
 				xAxisRot = 0;
-				lookWeight = 0;
+				//lookWeight = 0;
 				camState = CamStates.FirstPerson;
 			}
 
 			// Free camera
-			if (rightY < freeThreshold || rightX > -1f * freeThreshold || rightX < freeThreshold /* && System.Math.Round(follow.speed, 2) == 0 */ && camState != CamStates.FirstPerson){
+			if (rightY < freeThreshold || rightX > -1f * freeThreshold || rightX < freeThreshold && camState != CamStates.FirstPerson && camState != CamStates.FixedPosition){
 				camState = CamStates.Free;
 				savedRigToGoal = Vector3.zero;
 			}
 
 			// Behind
 			if ( (camState == CamStates.FirstPerson && Input.GetButtonDown("Button B")) ||
-			    (camState == CamStates.Target && !Input.GetButton("Button L")) ){
+			    (camState == CamStates.Target && !Input.GetButton("Button L")) ||
+			    follow.cameraAnchorTransform == null && camState != CamStates.Free && camState != CamStates.FirstPerson){
 				camState = CamStates.Behind;
+			}
+
+			// Menu
+			if (gameManager.gameState == GameManagerScript.GameState.MainMenu){
+
 			}
 		}
 
-		follow.animator.SetLookAtWeight (lookWeight);
+		//follow.animator.SetLookAtWeight (lookWeight);
 
 		// Execute camera state
 		switch (camState) {
@@ -214,7 +242,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 				ResetCamera();
 
 			// Only update camera look when moving
-			if (follow.speed > follow.LocomotionThreshold && follow.IsInLocomotion() && !follow.IsInPivot()){
+			if (follow.speed > follow.LocomotionThreshold && follow.IsInLocomotion()){
 				lookDirection = Vector3.Lerp (followTransform.right * (leftX < 0 ? 1f : -1f), followTransform.forward * (leftY < 0 ? -1f : 1f), Mathf.Abs (Vector3.Dot (this.transform.forward, followTransform.forward)));
 
 				// Calculate direction from camera to player
@@ -255,7 +283,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 				//TODO: not working
 				// Move character model's head
 				follow.animator.SetLookAtPosition(firstPersonCamPos.XForm.position + firstPersonCamPos.XForm.forward);
-				lookWeight = Mathf.Lerp (lookWeight, 1f, Time.deltaTime * firstPersonLookSpeed);
+				//lookWeight = Mathf.Lerp (lookWeight, 1f, Time.deltaTime * firstPersonLookSpeed);
 
 				// Looking left and right
 				Vector3 rotationAmount = Vector3.Lerp (Vector3.zero,new Vector3(0, fpsRotationDegreePerSecond * (leftX < 0 ? -1f : 1f), 0), Mathf.Abs(leftX));
@@ -274,7 +302,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 				break;
 
 			case CamStates.Free:
-				lookWeight = Mathf.Lerp (lookWeight, 0, Time.deltaTime * firstPersonLookSpeed);
+				//lookWeight = Mathf.Lerp (lookWeight, 0, Time.deltaTime * firstPersonLookSpeed);
 
 				// Move height and distance in separate parentRig transform
 				Vector3 rigToGoalDirection = Vector3.Normalize(characterOffset - this.transform.position);
@@ -317,6 +345,12 @@ public class ThirdPersonCamera : MonoBehaviour {
 
 				break;
 
+			case CamStates.FixedPosition:
+				ResetCamera();
+				camSmoothDampTime = 0.1f;
+				targetPosition = follow.cameraAnchorTransform.position;
+				break;
+
 		default: break;
 		}
 
@@ -357,11 +391,17 @@ public class ThirdPersonCamera : MonoBehaviour {
 		dof.aperture = initialAperture;
 
 		camSmoothDampTime = initialSmoothDampTime;
-		lookWeight = Mathf.Lerp (lookWeight, 0, Time.deltaTime * firstPersonLookSpeed);
+		//lookWeight = Mathf.Lerp (lookWeight, 0, Time.deltaTime * firstPersonLookSpeed);
 		transform.localRotation = Quaternion.Lerp (transform.localRotation, Quaternion.identity, Time.deltaTime);
 
 		lookDirection = followTransform.forward;
 		currentLookDirection = followTransform.forward;
+	}
+
+
+	//TODO: machen machen
+	private void EnableEffects(){
+
 	}
 
 	#endregion

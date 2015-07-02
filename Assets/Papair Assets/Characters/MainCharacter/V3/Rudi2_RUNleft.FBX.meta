@@ -1,0 +1,417 @@
+fileFormatVersion: 2
+guid: 2d698a6289eeaf84792866489d314181
+timeCreated: 1435572845
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: BagTop1
+    100002: BagTop2
+    100004: BagTop_Nub
+    100006: Oldguy
+    100008: Oldman_Bag_Bone
+    100010: Oldman_Bag_Nub_Bone
+    100012: Oldman_Beard1_Bone
+    100014: Oldman_Beard2_Bone
+    100016: Oldman_Beard_Nub_Bone
+    100018: Oldman_COM_ctrl
+    100020: Oldman_Head_Bone
+    100022: Oldman_Head_Nub_Bone
+    100024: Oldman_L_Ancle_Bone
+    100026: Oldman_L_Ancle_Bone 1
+    100028: Oldman_L_Beard1_Bone
+    100030: Oldman_L_Beard2_Bone
+    100032: Oldman_L_Beard_Nub_Bone
+    100034: Oldman_L_Clav_Bone
+    100036: Oldman_L_Earlap1_Bone
+    100038: Oldman_L_Earlap2_Bone
+    100040: Oldman_L_Earlap_Nub_Bone
+    100042: Oldman_L_Forarm_Bone
+    100044: Oldman_L_ForarmRoll1_Bone
+    100046: Oldman_L_ForarmRoll2_Bone
+    100048: Oldman_L_Hand_Bone
+    100050: Oldman_L_Index1_Bone
+    100052: Oldman_L_Index2_Bone
+    100054: Oldman_L_Index_Nub_Bone
+    100056: Oldman_L_Kiee_Bone
+    100058: Oldman_L_Kiee_Bone 1
+    100060: Oldman_L_mustache1_Bone
+    100062: Oldman_L_mustache2_Bone
+    100064: Oldman_L_mustache_nub_Bone
+    100066: Oldman_L_Shoulder_Bone
+    100068: Oldman_L_ShoulderRoll_Bone
+    100070: Oldman_L_Thjigh_Bone
+    100072: Oldman_L_Thjigh_Bone 1
+    100074: Oldman_L_Thumb_1_Bone
+    100076: Oldman_L_Thumb_2_Bone
+    100078: Oldman_L_Thumb_3_Bone
+    100080: Oldman_L_Thumb_Nub_Bone
+    100082: Oldman_L_Toe_Bone
+    100084: Oldman_L_Toe_Bone 1
+    100086: Oldman_L_Toe_Nub_Bone
+    100088: Oldman_L_Toe_Nub_Bone 1
+    100090: Oldman_L_Wrist_Bone
+    100092: Oldman_Main_ctrl
+    100094: Oldman_Neck_Bone
+    100096: Oldman_Pelvis_Bone
+    100098: Oldman_Pelvis_Nub_Bone
+    100100: Oldman_R_Beard1_Bone
+    100102: Oldman_R_Beard2_Bone
+    100104: Oldman_R_Beard_Nub_Bone
+    100106: Oldman_R_Clav_Bone
+    100108: Oldman_R_Earlap1_Bone
+    100110: Oldman_R_Earlap2_Bone
+    100112: Oldman_R_Earlap_Nub_Bone
+    100114: Oldman_R_Forarm_Bone
+    100116: Oldman_R_ForarmRoll1_Bone
+    100118: Oldman_R_ForarmRoll2_Bone
+    100120: Oldman_R_Hand_Bone
+    100122: Oldman_R_Index1_Bone
+    100124: Oldman_R_Index2_Bone
+    100126: Oldman_R_Index_Nub_Bone
+    100128: Oldman_R_mustache1_Bone
+    100130: Oldman_R_mustache2_Bone
+    100132: Oldman_R_mustache_nub_Bone
+    100134: Oldman_R_Shoulder_Bone
+    100136: Oldman_R_ShoulderRoll_Bone
+    100138: Oldman_R_Thumb_1_Bone
+    100140: Oldman_R_Thumb_2_Bone
+    100142: Oldman_R_Thumb_3_Bone
+    100144: Oldman_R_Thumb_Nub_Bone
+    100146: Oldman_R_Wrist_Bone
+    100148: Oldman_Spine1_Bone
+    100150: Oldman_Spine2_Bone
+    100152: Oldman_Spine3_Bone
+    100154: //RootNode
+    400000: BagTop1
+    400002: BagTop2
+    400004: BagTop_Nub
+    400006: Oldguy
+    400008: Oldman_Bag_Bone
+    400010: Oldman_Bag_Nub_Bone
+    400012: Oldman_Beard1_Bone
+    400014: Oldman_Beard2_Bone
+    400016: Oldman_Beard_Nub_Bone
+    400018: Oldman_COM_ctrl
+    400020: Oldman_Head_Bone
+    400022: Oldman_Head_Nub_Bone
+    400024: Oldman_L_Ancle_Bone
+    400026: Oldman_L_Ancle_Bone 1
+    400028: Oldman_L_Beard1_Bone
+    400030: Oldman_L_Beard2_Bone
+    400032: Oldman_L_Beard_Nub_Bone
+    400034: Oldman_L_Clav_Bone
+    400036: Oldman_L_Earlap1_Bone
+    400038: Oldman_L_Earlap2_Bone
+    400040: Oldman_L_Earlap_Nub_Bone
+    400042: Oldman_L_Forarm_Bone
+    400044: Oldman_L_ForarmRoll1_Bone
+    400046: Oldman_L_ForarmRoll2_Bone
+    400048: Oldman_L_Hand_Bone
+    400050: Oldman_L_Index1_Bone
+    400052: Oldman_L_Index2_Bone
+    400054: Oldman_L_Index_Nub_Bone
+    400056: Oldman_L_Kiee_Bone
+    400058: Oldman_L_Kiee_Bone 1
+    400060: Oldman_L_mustache1_Bone
+    400062: Oldman_L_mustache2_Bone
+    400064: Oldman_L_mustache_nub_Bone
+    400066: Oldman_L_Shoulder_Bone
+    400068: Oldman_L_ShoulderRoll_Bone
+    400070: Oldman_L_Thjigh_Bone
+    400072: Oldman_L_Thjigh_Bone 1
+    400074: Oldman_L_Thumb_1_Bone
+    400076: Oldman_L_Thumb_2_Bone
+    400078: Oldman_L_Thumb_3_Bone
+    400080: Oldman_L_Thumb_Nub_Bone
+    400082: Oldman_L_Toe_Bone
+    400084: Oldman_L_Toe_Bone 1
+    400086: Oldman_L_Toe_Nub_Bone
+    400088: Oldman_L_Toe_Nub_Bone 1
+    400090: Oldman_L_Wrist_Bone
+    400092: Oldman_Main_ctrl
+    400094: Oldman_Neck_Bone
+    400096: Oldman_Pelvis_Bone
+    400098: Oldman_Pelvis_Nub_Bone
+    400100: Oldman_R_Beard1_Bone
+    400102: Oldman_R_Beard2_Bone
+    400104: Oldman_R_Beard_Nub_Bone
+    400106: Oldman_R_Clav_Bone
+    400108: Oldman_R_Earlap1_Bone
+    400110: Oldman_R_Earlap2_Bone
+    400112: Oldman_R_Earlap_Nub_Bone
+    400114: Oldman_R_Forarm_Bone
+    400116: Oldman_R_ForarmRoll1_Bone
+    400118: Oldman_R_ForarmRoll2_Bone
+    400120: Oldman_R_Hand_Bone
+    400122: Oldman_R_Index1_Bone
+    400124: Oldman_R_Index2_Bone
+    400126: Oldman_R_Index_Nub_Bone
+    400128: Oldman_R_mustache1_Bone
+    400130: Oldman_R_mustache2_Bone
+    400132: Oldman_R_mustache_nub_Bone
+    400134: Oldman_R_Shoulder_Bone
+    400136: Oldman_R_ShoulderRoll_Bone
+    400138: Oldman_R_Thumb_1_Bone
+    400140: Oldman_R_Thumb_2_Bone
+    400142: Oldman_R_Thumb_3_Bone
+    400144: Oldman_R_Thumb_Nub_Bone
+    400146: Oldman_R_Wrist_Bone
+    400148: Oldman_Spine1_Bone
+    400150: Oldman_Spine2_Bone
+    400152: Oldman_Spine3_Bone
+    400154: //RootNode
+    4300000: Oldguy
+    7400000: Run_left
+    9500000: //RootNode
+    13700000: Oldguy
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Run_left
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 21
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Oldguy
+        weight: 1
+      - path: Oldman_Main_ctrl
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Pelvis_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Pelvis_Bone/Oldman_L_Thjigh_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Pelvis_Bone/Oldman_L_Thjigh_Bone/Oldman_L_Kiee_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Pelvis_Bone/Oldman_L_Thjigh_Bone/Oldman_L_Kiee_Bone/Oldman_L_Ancle_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Pelvis_Bone/Oldman_L_Thjigh_Bone/Oldman_L_Kiee_Bone/Oldman_L_Ancle_Bone/Oldman_L_Toe_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Pelvis_Bone/Oldman_L_Thjigh_Bone/Oldman_L_Kiee_Bone/Oldman_L_Ancle_Bone/Oldman_L_Toe_Bone/Oldman_L_Toe_Nub_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Pelvis_Bone/Oldman_L_Thjigh_Bone
+          1
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Pelvis_Bone/Oldman_L_Thjigh_Bone
+          1/Oldman_L_Kiee_Bone 1
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Pelvis_Bone/Oldman_L_Thjigh_Bone
+          1/Oldman_L_Kiee_Bone 1/Oldman_L_Ancle_Bone 1
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Pelvis_Bone/Oldman_L_Thjigh_Bone
+          1/Oldman_L_Kiee_Bone 1/Oldman_L_Ancle_Bone 1/Oldman_L_Toe_Bone 1
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Pelvis_Bone/Oldman_L_Thjigh_Bone
+          1/Oldman_L_Kiee_Bone 1/Oldman_L_Ancle_Bone 1/Oldman_L_Toe_Bone 1/Oldman_L_Toe_Nub_Bone
+          1
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Pelvis_Bone/Oldman_Pelvis_Nub_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Bag_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Bag_Bone/BagTop1
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Bag_Bone/BagTop1/BagTop2
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Bag_Bone/BagTop1/BagTop2/BagTop_Nub
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Bag_Bone/Oldman_Bag_Nub_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_L_Clav_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_L_Clav_Bone/Oldman_L_Shoulder_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_L_Clav_Bone/Oldman_L_Shoulder_Bone/Oldman_L_Forarm_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_L_Clav_Bone/Oldman_L_Shoulder_Bone/Oldman_L_Forarm_Bone/Oldman_L_ForarmRoll1_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_L_Clav_Bone/Oldman_L_Shoulder_Bone/Oldman_L_Forarm_Bone/Oldman_L_ForarmRoll2_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_L_Clav_Bone/Oldman_L_Shoulder_Bone/Oldman_L_Forarm_Bone/Oldman_L_Wrist_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_L_Clav_Bone/Oldman_L_Shoulder_Bone/Oldman_L_Forarm_Bone/Oldman_L_Wrist_Bone/Oldman_L_Hand_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_L_Clav_Bone/Oldman_L_Shoulder_Bone/Oldman_L_Forarm_Bone/Oldman_L_Wrist_Bone/Oldman_L_Hand_Bone/Oldman_L_Index1_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_L_Clav_Bone/Oldman_L_Shoulder_Bone/Oldman_L_Forarm_Bone/Oldman_L_Wrist_Bone/Oldman_L_Hand_Bone/Oldman_L_Index1_Bone/Oldman_L_Index2_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_L_Clav_Bone/Oldman_L_Shoulder_Bone/Oldman_L_Forarm_Bone/Oldman_L_Wrist_Bone/Oldman_L_Hand_Bone/Oldman_L_Index1_Bone/Oldman_L_Index2_Bone/Oldman_L_Index_Nub_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_L_Clav_Bone/Oldman_L_Shoulder_Bone/Oldman_L_Forarm_Bone/Oldman_L_Wrist_Bone/Oldman_L_Hand_Bone/Oldman_L_Thumb_1_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_L_Clav_Bone/Oldman_L_Shoulder_Bone/Oldman_L_Forarm_Bone/Oldman_L_Wrist_Bone/Oldman_L_Hand_Bone/Oldman_L_Thumb_1_Bone/Oldman_L_Thumb_2_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_L_Clav_Bone/Oldman_L_Shoulder_Bone/Oldman_L_Forarm_Bone/Oldman_L_Wrist_Bone/Oldman_L_Hand_Bone/Oldman_L_Thumb_1_Bone/Oldman_L_Thumb_2_Bone/Oldman_L_Thumb_3_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_L_Clav_Bone/Oldman_L_Shoulder_Bone/Oldman_L_Forarm_Bone/Oldman_L_Wrist_Bone/Oldman_L_Hand_Bone/Oldman_L_Thumb_1_Bone/Oldman_L_Thumb_2_Bone/Oldman_L_Thumb_3_Bone/Oldman_L_Thumb_Nub_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_L_Clav_Bone/Oldman_L_Shoulder_Bone/Oldman_L_ShoulderRoll_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_Beard1_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_Beard1_Bone/Oldman_Beard2_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_Beard1_Bone/Oldman_Beard2_Bone/Oldman_Beard_Nub_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_Head_Nub_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_L_Beard1_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_L_Beard1_Bone/Oldman_L_Beard2_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_L_Beard1_Bone/Oldman_L_Beard2_Bone/Oldman_L_Beard_Nub_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_L_Earlap1_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_L_Earlap1_Bone/Oldman_L_Earlap2_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_L_Earlap1_Bone/Oldman_L_Earlap2_Bone/Oldman_L_Earlap_Nub_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_L_mustache1_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_L_mustache1_Bone/Oldman_L_mustache2_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_L_mustache1_Bone/Oldman_L_mustache2_Bone/Oldman_L_mustache_nub_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_R_Beard1_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_R_Beard1_Bone/Oldman_R_Beard2_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_R_Beard1_Bone/Oldman_R_Beard2_Bone/Oldman_R_Beard_Nub_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_R_Earlap1_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_R_Earlap1_Bone/Oldman_R_Earlap2_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_R_Earlap1_Bone/Oldman_R_Earlap2_Bone/Oldman_R_Earlap_Nub_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_R_mustache1_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_R_mustache1_Bone/Oldman_R_mustache2_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_Neck_Bone/Oldman_Head_Bone/Oldman_R_mustache1_Bone/Oldman_R_mustache2_Bone/Oldman_R_mustache_nub_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_R_Clav_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_R_Clav_Bone/Oldman_R_Shoulder_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_R_Clav_Bone/Oldman_R_Shoulder_Bone/Oldman_R_Forarm_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_R_Clav_Bone/Oldman_R_Shoulder_Bone/Oldman_R_Forarm_Bone/Oldman_R_ForarmRoll1_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_R_Clav_Bone/Oldman_R_Shoulder_Bone/Oldman_R_Forarm_Bone/Oldman_R_ForarmRoll2_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_R_Clav_Bone/Oldman_R_Shoulder_Bone/Oldman_R_Forarm_Bone/Oldman_R_Wrist_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_R_Clav_Bone/Oldman_R_Shoulder_Bone/Oldman_R_Forarm_Bone/Oldman_R_Wrist_Bone/Oldman_R_Hand_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_R_Clav_Bone/Oldman_R_Shoulder_Bone/Oldman_R_Forarm_Bone/Oldman_R_Wrist_Bone/Oldman_R_Hand_Bone/Oldman_R_Index1_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_R_Clav_Bone/Oldman_R_Shoulder_Bone/Oldman_R_Forarm_Bone/Oldman_R_Wrist_Bone/Oldman_R_Hand_Bone/Oldman_R_Index1_Bone/Oldman_R_Index2_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_R_Clav_Bone/Oldman_R_Shoulder_Bone/Oldman_R_Forarm_Bone/Oldman_R_Wrist_Bone/Oldman_R_Hand_Bone/Oldman_R_Index1_Bone/Oldman_R_Index2_Bone/Oldman_R_Index_Nub_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_R_Clav_Bone/Oldman_R_Shoulder_Bone/Oldman_R_Forarm_Bone/Oldman_R_Wrist_Bone/Oldman_R_Hand_Bone/Oldman_R_Thumb_1_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_R_Clav_Bone/Oldman_R_Shoulder_Bone/Oldman_R_Forarm_Bone/Oldman_R_Wrist_Bone/Oldman_R_Hand_Bone/Oldman_R_Thumb_1_Bone/Oldman_R_Thumb_2_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_R_Clav_Bone/Oldman_R_Shoulder_Bone/Oldman_R_Forarm_Bone/Oldman_R_Wrist_Bone/Oldman_R_Hand_Bone/Oldman_R_Thumb_1_Bone/Oldman_R_Thumb_2_Bone/Oldman_R_Thumb_3_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_R_Clav_Bone/Oldman_R_Shoulder_Bone/Oldman_R_Forarm_Bone/Oldman_R_Wrist_Bone/Oldman_R_Hand_Bone/Oldman_R_Thumb_1_Bone/Oldman_R_Thumb_2_Bone/Oldman_R_Thumb_3_Bone/Oldman_R_Thumb_Nub_Bone
+        weight: 1
+      - path: Oldman_Main_ctrl/Oldman_COM_ctrl/Oldman_Spine1_Bone/Oldman_Spine2_Bone/Oldman_Spine3_Bone/Oldman_R_Clav_Bone/Oldman_R_Shoulder_Bone/Oldman_R_ShoulderRoll_Bone
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: Oldman_Main_ctrl
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
