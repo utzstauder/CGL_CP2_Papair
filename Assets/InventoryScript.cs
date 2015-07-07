@@ -73,6 +73,14 @@ public class InventoryScript : MonoBehaviour {
 		}
 	}
 
+	public void Show(){
+		FillImageColor (imageKey);
+	}
+
+	public void Hide(){
+		ClearImageColor (imageKey);
+	}
+
 	private void CheckButterflyCount(){
 		if (butterflyCount >= 6)
 			hasBlueprint = true;
@@ -82,6 +90,10 @@ public class InventoryScript : MonoBehaviour {
 
 	private void ClearImageColor(Image image){
 		image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
+	}
+
+	private void FillImageColor (Image image){
+		image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
 	}
 
 	private IEnumerator FadeImage(Image image, float from, float to, float time){

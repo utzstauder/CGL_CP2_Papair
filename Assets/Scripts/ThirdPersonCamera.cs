@@ -60,6 +60,9 @@ public class ThirdPersonCamera : MonoBehaviour {
 	[SerializeField]
 	private const float freeRotationDegreePerSecond = -5f;
 
+	[SerializeField]
+	private LayerMask compensateLayerMask;
+
 	// private global only
 	private Vector3 lookDirection;
 	private Vector3 currentLookDirection;
@@ -96,6 +99,10 @@ public class ThirdPersonCamera : MonoBehaviour {
 	// references
 	private GameManagerScript gameManager;
 
+	// cutscenes
+	public Transform cutsceneAnchor;
+	public Transform cutsceneTarget;
+
 	#endregion
 
 
@@ -107,10 +114,12 @@ public class ThirdPersonCamera : MonoBehaviour {
 		Target,
 		Free,
 		FixedPosition,
-		Menu
+		Menu,
+		Cutscene
 	}
 
 	public CamStates camState = CamStates.Behind;
+	private CamStates camStatePrev = CamStates.Behind;
 	
 	#endregion
 
@@ -181,58 +190,60 @@ public class ThirdPersonCamera : MonoBehaviour {
 
 		// Determine camera state
 		// Fixed Position
-		if (follow.cameraAnchorTransform != null && camState != CamStates.FirstPerson) {
-			camState = CamStates.FixedPosition;
+		if (gameManager.gameState != GameManagerScript.GameState.Cutscene) {
+			if (follow.cameraAnchorTransform != null && camState != CamStates.FirstPerson) {
+				camState = CamStates.FixedPosition;
 
-			// First Person View also possible while in Fixed Position
-			if (rightY > firstPersonThreshold && camState != CamStates.Free && !follow.IsInLocomotion()){
-				// Reset look before entering the first person mode
-				xAxisRot = 0;
-				//lookWeight = 0;
-				camState = CamStates.FirstPerson;
-			}
+				// First Person View also possible while in Fixed Position
+				if (rightY > firstPersonThreshold && camState != CamStates.Free && !follow.IsInLocomotion ()) {
+					// Reset look before entering the first person mode
+					xAxisRot = 0;
+					//lookWeight = 0;
+					camState = CamStates.FirstPerson;
+				}
 
-			// Remove barsEffect
-			barEffect.coverage = Mathf.SmoothStep(barEffect.coverage, 0f, targetingTime);
+				// Remove barsEffect
+				barEffect.coverage = Mathf.SmoothStep (barEffect.coverage, 0f, targetingTime);
 
-		}
-		else if (Input.GetButton ("Button L")) { // Target
-			// set initial direction when entering target mode
-			if (targetDirection == Vector3.zero) targetDirection = followTransform.forward;
+			} else if (Input.GetButton ("Button L")) { // Target
+				// set initial direction when entering target mode
+				if (targetDirection == Vector3.zero)
+					targetDirection = followTransform.forward;
 
 				barEffect.coverage = Mathf.SmoothStep (barEffect.coverage, widescreen, targetingTime);
 
 				camState = CamStates.Target;
 			} else {
-			barEffect.coverage = Mathf.SmoothStep(barEffect.coverage, 0f, targetingTime);
-			targetDirection = Vector3.zero;
+				barEffect.coverage = Mathf.SmoothStep (barEffect.coverage, 0f, targetingTime);
+				targetDirection = Vector3.zero;
 
-			// First Person View
-			if (rightY > firstPersonThreshold && camState != CamStates.Free && !follow.IsInLocomotion() && camState != CamStates.FixedPosition){
-				// Reset look before entering the first person mode
-				xAxisRot = 0;
-				//lookWeight = 0;
-				camState = CamStates.FirstPerson;
+				// First Person View
+				if (rightY > firstPersonThreshold && camState != CamStates.Free && !follow.IsInLocomotion () && camState != CamStates.FixedPosition) {
+					// Reset look before entering the first person mode
+					xAxisRot = 0;
+					//lookWeight = 0;
+					camState = CamStates.FirstPerson;
+				}
+
+				// Free camera
+				if (rightY < freeThreshold || rightX > -1f * freeThreshold || rightX < freeThreshold && camState != CamStates.FirstPerson && camState != CamStates.FixedPosition) {
+					camState = CamStates.Free;
+					savedRigToGoal = Vector3.zero;
+				}
+
+				// Behind
+				if ((camState == CamStates.FirstPerson && Input.GetButtonDown ("Button B")) ||
+					(camState == CamStates.Target && !Input.GetButton ("Button L")) ||
+					follow.cameraAnchorTransform == null && camState != CamStates.Free && camState != CamStates.FirstPerson) {
+					camState = CamStates.Behind;
+				}
+
+				// Menu
+				if (gameManager.gameState == GameManagerScript.GameState.MainMenu) {
+
+				}
 			}
-
-			// Free camera
-			if (rightY < freeThreshold || rightX > -1f * freeThreshold || rightX < freeThreshold && camState != CamStates.FirstPerson && camState != CamStates.FixedPosition){
-				camState = CamStates.Free;
-				savedRigToGoal = Vector3.zero;
-			}
-
-			// Behind
-			if ( (camState == CamStates.FirstPerson && Input.GetButtonDown("Button B")) ||
-			    (camState == CamStates.Target && !Input.GetButton("Button L")) ||
-			    follow.cameraAnchorTransform == null && camState != CamStates.Free && camState != CamStates.FirstPerson){
-				camState = CamStates.Behind;
-			}
-
-			// Menu
-			if (gameManager.gameState == GameManagerScript.GameState.MainMenu){
-
-			}
-		}
+		} else camState = CamStates.Cutscene;
 
 		//follow.animator.SetLookAtWeight (lookWeight);
 
@@ -254,6 +265,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 			}
 
 			targetPosition = characterOffset + followTransform.up * distanceUp - Vector3.Normalize(currentLookDirection) * distanceAway;
+			camStatePrev = CamStates.Behind;
 			break;
 
 			case CamStates.Target:
@@ -261,7 +273,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 				camSmoothDampTime = 0.05f;
 				lookDirection = targetDirection;
 				targetPosition = characterOffset + followTransform.up * distanceUp - lookDirection * distanceAway;
-
+				camStatePrev = CamStates.Target;
 			break;
 
 			case CamStates.FirstPerson:
@@ -299,6 +311,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 				// Choose lookAt Target based on distance
 				lookAt = Vector3.Lerp (this.transform.position + this.transform.forward, lookAt, Vector3.Distance(this.transform.position,firstPersonCamPos.XForm.position));
 
+			camStatePrev = CamStates.FirstPerson;
 				break;
 
 			case CamStates.Free:
@@ -342,13 +355,23 @@ public class ThirdPersonCamera : MonoBehaviour {
 
 		//		SmoothPosition(transform.position, targetPosition);
 		//		transform.LookAt(lookAt);
-
+			camStatePrev = CamStates.Free;
 				break;
 
 			case CamStates.FixedPosition:
 				ResetCamera();
 				camSmoothDampTime = 0.1f;
 				targetPosition = follow.cameraAnchorTransform.position;
+			camStatePrev = CamStates.FixedPosition;
+				break;
+
+			case CamStates.Cutscene:
+				ResetCamera();
+				camSmoothDampTime = 0;
+				barEffect.coverage = widescreen;
+				targetPosition = cutsceneAnchor.position;
+				lookAt = cutsceneTarget.position;
+			camStatePrev = CamStates.Cutscene;
 				break;
 
 		default: break;
@@ -378,7 +401,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 		Debug.DrawLine (fromObject, toTarget, Color.cyan);
 		// Compensate for walls between camera
 		RaycastHit wallHit = new RaycastHit ();
-		if (Physics.Linecast(fromObject,toTarget, out wallHit)){
+		if (Physics.Linecast(fromObject,toTarget, out wallHit, compensateLayerMask)){
 			Debug.DrawRay(wallHit.point, Vector3.left, Color.red);
 			toTarget = new Vector3(wallHit.point.x, toTarget.y, wallHit.point.z);
 		}
@@ -390,7 +413,9 @@ public class ThirdPersonCamera : MonoBehaviour {
 		dof.focalSize = initialFocalSize;
 		dof.aperture = initialAperture;
 
-		camSmoothDampTime = initialSmoothDampTime;
+		if (camStatePrev == CamStates.Cutscene || camStatePrev == CamStates.FixedPosition)
+			camSmoothDampTime = 0;
+		else camSmoothDampTime = initialSmoothDampTime;
 		//lookWeight = Mathf.Lerp (lookWeight, 0, Time.deltaTime * firstPersonLookSpeed);
 		transform.localRotation = Quaternion.Lerp (transform.localRotation, Quaternion.identity, Time.deltaTime);
 

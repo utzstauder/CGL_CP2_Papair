@@ -47,7 +47,8 @@ public class GameManagerScript : MonoBehaviour {
 	private Transform inGameOverlay;
 	private Transform inventoryOverlay;
 	private Image fadeImage;
-
+	private GameUIControllerScript gameUIcontrollerScript;
+	private InventoryScript inventoryScript;
 
 	// Scene transition
 	public Level currentScene;
@@ -58,10 +59,28 @@ public class GameManagerScript : MonoBehaviour {
 	private float levelSetupTime = 1f;
 	private ScreenOverlay screenOverlay;
 
+	// Cutscenes
+	private float cutsceneDuration = 5f;
+
 	#region scene variables
 	[Header("1-Cave switches")]
+	public bool visitedCave = false;
 	public bool doorInCaveOpen = false;
 
+	[Header("2-Yard switches")]
+	public bool visitedYard = false;
+
+	[Header("3-Forest switches")]
+	public bool visitedForest = false;
+
+	[Header("4-TestingGround switches")]
+	public bool visitedTestingGround = false;
+
+	[Header("5-Lighthouse switches")]
+	public bool visitedLighthouse = false;
+
+	[Header("6-Cockpit switches")]
+	public bool visitedCockpit = false;
 	#endregion
 
 	// Use this for initialization
@@ -72,6 +91,8 @@ public class GameManagerScript : MonoBehaviour {
 		// Hide the mouse during play.
 		Cursor.visible = false;
 
+		gameUIcontrollerScript = GetComponent<GameUIControllerScript> ();
+		inventoryScript = GetComponent<InventoryScript> ();
 		gameCamera = GameObject.FindGameObjectWithTag ("MainCamera");
 		gameCanvas = transform.FindChild ("GameCanvas").GetComponent<Canvas> ();
 		mainMenu = gameCanvas.transform.FindChild ("MainMenu");
@@ -165,11 +186,47 @@ public class GameManagerScript : MonoBehaviour {
 
 		yield return new WaitForSeconds (levelSetupTime);
 
+		// Check if area already visited or game should play cutscene
+		switch (targetScene) {
+		case 1:
+			if (!visitedCave){
+				visitedCave = true;
+			}
+			break;
+		case 2:
+			if (!visitedYard){
+				visitedYard = true;
+				GameObject cutsceneObject = GameObject.Find("Cutscene_YardIntro");
+				StartCoroutine(PlayCutscene(cutsceneObject, cutsceneDuration));
+			}
+			break;
+		case 3:
+			if (!visitedForest){
+				visitedForest = true;
+			}
+			break;
+		case 4:
+			if (!visitedTestingGround){
+				visitedTestingGround = true;
+			}
+			break;
+		case 5:
+			if (!visitedLighthouse){
+				visitedLighthouse = true;
+			}
+			break;
+		case 6:
+			if (!visitedCockpit){
+				visitedCockpit = true;
+			}
+			break;
+		}
+
 		StartCoroutine (Fade (1f, 0f, fadeTime));
 
 		yield return new WaitForSeconds (fadeTime);
 
-		if (GetLevelFromIndex (targetScene) != Level.MainMenu) {
+		if (GetLevelFromIndex (targetScene) != Level.MainMenu && gameState != GameState.Cutscene) {
 			gameState = GameState.Playing;
 		}
 	}
@@ -194,6 +251,9 @@ public class GameManagerScript : MonoBehaviour {
 		// Fade out
 		StartCoroutine (Fade (0f, 1f, fadeTime));
 		yield return new WaitForSeconds (fadeTime);
+
+		// clear all text
+		gameUIcontrollerScript.ClearAll (Time.deltaTime);
 		
 		// Load new scene
 		previousScene = currentScene;
@@ -203,6 +263,31 @@ public class GameManagerScript : MonoBehaviour {
 	private IEnumerator ToggleGameObjectAfterTime(GameObject target, bool state, float time){
 		yield return new WaitForSeconds (time);
 		target.SetActive (state);
+	}
+
+	private IEnumerator PlayCutscene(GameObject cutsceneObject, float duration){
+		// clear inventory overlay
+		inventoryScript.Hide ();
+
+		// set camera references
+		ThirdPersonCamera camera = gameCamera.GetComponent<ThirdPersonCamera> ();
+		camera.cutsceneAnchor = cutsceneObject.transform.FindChild ("CameraAnchor");
+		camera.cutsceneTarget = cutsceneObject.transform.FindChild ("CameraTarget");
+
+		// show text
+		gameUIcontrollerScript.DisplayAreaText (cutsceneObject.GetComponent<CutsceneScript>().levelName, duration);
+
+		// play cutscene animation
+		gameState = GameState.Cutscene;
+		cutsceneObject.GetComponent<Animator>().SetBool ("isPlaying", true);
+
+		// wait until its over
+		// TODO: right now you have to manually set all the animations to last [duration] seconds
+		yield return new WaitForSeconds (duration);
+
+		// show inventory again
+		inventoryScript.Show ();
+		gameState = GameState.Playing;
 	}
 
 	#endregion
