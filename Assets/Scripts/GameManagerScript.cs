@@ -42,6 +42,7 @@ public class GameManagerScript : MonoBehaviour {
 	private GameObject player;
 	[SerializeField]
 	private GameObject gameCamera;
+	private ThirdPersonCamera camera;
 	private Canvas gameCanvas;
 	private Transform mainMenu;
 	private Transform inGameOverlay;
@@ -49,6 +50,7 @@ public class GameManagerScript : MonoBehaviour {
 	private Image fadeImage;
 	private GameUIControllerScript gameUIcontrollerScript;
 	private InventoryScript inventoryScript;
+	private MusicManagerScript musicManagerScript;
 
 	// Scene transition
 	public Level currentScene;
@@ -69,15 +71,24 @@ public class GameManagerScript : MonoBehaviour {
 
 	[Header("2-Yard switches")]
 	public bool visitedYard = false;
+	public bool collectedButterfly1 = false;
+	public bool collectedButterfly2 = false;
 
 	[Header("3-Forest switches")]
 	public bool visitedForest = false;
+	public bool collectedButterfly3 = false;
+	public bool collectedButterfly4 = false;
+	public bool collectedButterfly5 = false;
+	public bool collectedButterfly6 = false;
 
 	[Header("4-TestingGround switches")]
 	public bool visitedTestingGround = false;
 
 	[Header("5-Lighthouse switches")]
 	public bool visitedLighthouse = false;
+	public bool activatedSwitch1 = false;
+	public bool activatedSwitch2 = false;
+	public bool collectedEnergycore = false;
 
 	[Header("6-Cockpit switches")]
 	public bool visitedCockpit = false;
@@ -93,7 +104,9 @@ public class GameManagerScript : MonoBehaviour {
 
 		gameUIcontrollerScript = GetComponent<GameUIControllerScript> ();
 		inventoryScript = GetComponent<InventoryScript> ();
+		musicManagerScript = this.transform.FindChild ("MusicManager").GetComponent<MusicManagerScript> ();
 		gameCamera = GameObject.FindGameObjectWithTag ("MainCamera");
+		camera = gameCamera.GetComponent<ThirdPersonCamera> ();
 		gameCanvas = transform.FindChild ("GameCanvas").GetComponent<Canvas> ();
 		mainMenu = gameCanvas.transform.FindChild ("MainMenu");
 		inGameOverlay = gameCanvas.transform.FindChild ("InGameOverlay");
@@ -140,6 +153,7 @@ public class GameManagerScript : MonoBehaviour {
 	#region mainmenu
 
 	public void StartGame(){
+		musicManagerScript.PlayAll ();
 		StartCoroutine(SceneTransition(Level.Cave));
 		StartCoroutine (ToggleGameObjectAfterTime (mainMenu.gameObject, false, fadeTime));
 	}
@@ -151,13 +165,63 @@ public class GameManagerScript : MonoBehaviour {
 
 	#endregion
 
+	#region game methods
+
+	public void PlayCutsceneExternal(GameObject cutsceneObject, float cutsceneDuration){
+		StartCoroutine (PlayCutscene (cutsceneObject, cutsceneDuration));
+	}
+
+	public void SetItemSwitch(InventoryScript.Item item, int butterflyNumber){
+		if (butterflyNumber == 0) {
+			if (item == InventoryScript.Item.Energycore)
+				collectedEnergycore = true;
+		} else
+		switch (butterflyNumber) {
+			case 1:
+			collectedButterfly1 = true;
+			break;
+			case 2:
+			collectedButterfly2 = true;
+			break;
+			case 3:
+			collectedButterfly3 = true;
+			break;
+			case 4:
+			collectedButterfly4 = true;
+			break;
+			case 5:
+			collectedButterfly5 = true;
+			break;
+			case 6:
+			collectedButterfly6 = true;
+			break;
+			default:
+			break;
+		}
+	}
+
+	public void SetLighthouseSwitch(int switchId){
+		switch (switchId) {
+		case 1:
+			activatedSwitch1 = true;
+			break;
+		case 2:
+			activatedSwitch2 = true;
+			break;
+		default:
+			break;
+		}
+	}
+	
+	#endregion
+
 	#region coroutines
 
 	/* Gets called once a scene is loaded
 		Use this to place Objects
 	*/
 	private IEnumerator OnLevelWasLoaded(int targetScene){
-		Debug.Log ("Level " + targetScene + " was loaded successfully!");
+//		Debug.Log ("Level " + targetScene + " was loaded successfully!");
 		Vector3 newPlayerPosition = Vector3.zero;
 		Quaternion newPlayerRotation = Quaternion.identity;
 		
@@ -186,14 +250,16 @@ public class GameManagerScript : MonoBehaviour {
 
 		yield return new WaitForSeconds (levelSetupTime);
 
-		// Check if area already visited or game should play cutscene
+		// Check area specifics
 		switch (targetScene) {
 		case 1:
+			camera.DisableFog();
 			if (!visitedCave){
 				visitedCave = true;
 			}
 			break;
 		case 2:
+			camera.SetFog(targetScene);
 			if (!visitedYard){
 				visitedYard = true;
 				GameObject cutsceneObject = GameObject.Find("Cutscene_YardIntro");
@@ -201,21 +267,25 @@ public class GameManagerScript : MonoBehaviour {
 			}
 			break;
 		case 3:
+			camera.SetFog(targetScene);
 			if (!visitedForest){
 				visitedForest = true;
 			}
 			break;
 		case 4:
+			camera.SetFog(targetScene);
 			if (!visitedTestingGround){
 				visitedTestingGround = true;
 			}
 			break;
 		case 5:
+			camera.SetFog(targetScene);
 			if (!visitedLighthouse){
 				visitedLighthouse = true;
 			}
 			break;
 		case 6:
+			camera.DisableFog();
 			if (!visitedCockpit){
 				visitedCockpit = true;
 			}
@@ -250,6 +320,10 @@ public class GameManagerScript : MonoBehaviour {
 
 		// Fade out
 		StartCoroutine (Fade (0f, 1f, fadeTime));
+
+		// Fade music
+		musicManagerScript.StartCoroutine (musicManagerScript.FadeToMusicOfLevel (GetSceneIndex (nextScene), fadeTime + levelSetupTime));
+
 		yield return new WaitForSeconds (fadeTime);
 
 		// clear all text
@@ -266,11 +340,12 @@ public class GameManagerScript : MonoBehaviour {
 	}
 
 	private IEnumerator PlayCutscene(GameObject cutsceneObject, float duration){
+		gameState = GameState.Cutscene;
+
 		// clear inventory overlay
 		inventoryScript.Hide ();
 
 		// set camera references
-		ThirdPersonCamera camera = gameCamera.GetComponent<ThirdPersonCamera> ();
 		camera.cutsceneAnchor = cutsceneObject.transform.FindChild ("CameraAnchor");
 		camera.cutsceneTarget = cutsceneObject.transform.FindChild ("CameraTarget");
 
@@ -278,16 +353,28 @@ public class GameManagerScript : MonoBehaviour {
 		gameUIcontrollerScript.DisplayAreaText (cutsceneObject.GetComponent<CutsceneScript>().levelName, duration);
 
 		// play cutscene animation
-		gameState = GameState.Cutscene;
 		cutsceneObject.GetComponent<Animator>().SetBool ("isPlaying", true);
 
 		// wait until its over
 		// TODO: right now you have to manually set all the animations to last [duration] seconds
 		yield return new WaitForSeconds (duration);
 
+		// fade out
+		StartCoroutine (Fade (0, 1f, fadeTime/2));
+		yield return new WaitForSeconds (fadeTime/2);
+
 		// show inventory again
 		inventoryScript.Show ();
+	
+		// resume playing
 		gameState = GameState.Playing;
+	
+		// wait to compensate for camera movement
+		yield return new WaitForSeconds (fadeTime / 2);
+
+		// fade in
+		StartCoroutine (Fade (1f, 0, fadeTime/2));
+
 	}
 
 	#endregion

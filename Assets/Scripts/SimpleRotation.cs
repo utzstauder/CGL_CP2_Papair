@@ -4,7 +4,7 @@ using System.Collections;
 public class SimpleRotation : MonoBehaviour {
 
 	[SerializeField]
-	private float speed = 1f;
+	private Vector3 rotationSpeed = Vector3.zero;
 
 	// Use this for initialization
 	void Start () {
@@ -14,7 +14,7 @@ public class SimpleRotation : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		this.transform.Rotate (0, speed * Time.deltaTime, 0);
+		this.transform.Rotate (rotationSpeed.x * Time.deltaTime, rotationSpeed.y * Time.deltaTime, rotationSpeed.z * Time.deltaTime);
 
 	}
 }

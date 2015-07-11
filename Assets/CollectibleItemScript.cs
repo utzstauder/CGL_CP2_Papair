@@ -5,24 +5,62 @@ public class CollectibleItemScript : MonoBehaviour {
 
 	public InventoryScript.Item itemType;
 
+	public int butterflyNumber = 0;
+
+	private InventoryScript inventoryScript;
+	private GameManagerScript gameManagerScript;
+	private GameUIControllerScript gameUIControllerScript;
+
 	// Use this for initialization
 	void Awake () {
-		InventoryScript inventoryScript = GameObject.FindGameObjectWithTag ("GameManager").GetComponent<InventoryScript> ();
+		inventoryScript = GameObject.Find ("GameManager").GetComponent<InventoryScript> ();
+		gameManagerScript = GameObject.Find ("GameManager").GetComponent<GameManagerScript> ();
+		gameUIControllerScript = GameObject.Find ("GameManager").GetComponent<GameUIControllerScript> ();
 
-		switch (itemType) {
-		case InventoryScript.Item.Key:
-			if (inventoryScript.hasKey)
+		if (itemType== InventoryScript.Item.Energycore && gameManagerScript.collectedEnergycore)
 				Destroy(this.gameObject);
-			break;
-		default:
-			break;
+		else if (itemType == InventoryScript.Item.Butterfly){
+			switch (butterflyNumber){
+			case 1:
+				if (gameManagerScript.collectedButterfly1)
+					Destroy(this);
+				break;
+			case 2:
+				if (gameManagerScript.collectedButterfly2)
+					Destroy(this);
+				break;
+			case 3:
+				if (gameManagerScript.collectedButterfly3)
+					Destroy(this);
+				break;
+			case 4:
+				if (gameManagerScript.collectedButterfly4)
+					Destroy(this);
+				break;
+			case 5:
+				if (gameManagerScript.collectedButterfly5)
+					Destroy(this);
+				break;
+			case 6:
+				if (gameManagerScript.collectedButterfly6)
+					Destroy(this);
+				break;
+			default:
+				break;
+			}
 		}
 
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	public void OnGrab () {
+		if (itemType == InventoryScript.Item.Energycore && (!gameManagerScript.activatedSwitch1 || !gameManagerScript.activatedSwitch2)) {
+			gameUIControllerScript.DisplayText("I can't grab this just yet. There is still some juices flowing!", 2f);
+		} else {
+			inventoryScript.AddItem(itemType);
+			gameManagerScript.SetItemSwitch(itemType, butterflyNumber);
+			Destroy (this.gameObject);
+		}
 	}
-
+	
 }

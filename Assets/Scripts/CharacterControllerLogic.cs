@@ -33,8 +33,6 @@ public class CharacterControllerLogic : MonoBehaviour {
 
 	[Header("Grab everything!")]
 	[SerializeField]
-	private LayerMask grabbableLayers;
-	[SerializeField]
 	private Transform grabArea;
 	[SerializeField]
 	private float grabRadius = .35f;
@@ -268,8 +266,9 @@ public class CharacterControllerLogic : MonoBehaviour {
 					GetComponent<CharacterAudioControllerScript> ().KickPlayAudio (); // Play audio
 				}
 				
-				if (hit.transform.gameObject.GetComponent<LockedDoorScript>()){
-				hit.transform.gameObject.GetComponent<LockedDoorScript>().OnKick();
+				if (hit.transform.gameObject.GetComponent<LighthouseSwitchScript>()){
+				Debug.Log ("Hit a switch!");
+				hit.transform.gameObject.GetComponent<LighthouseSwitchScript>().OnKick();
 				}
 			}
 //		if (Physics.Raycast(this.transform.position, this.transform.forward, out hit, kickableLayers)){
@@ -284,13 +283,12 @@ public class CharacterControllerLogic : MonoBehaviour {
 	}
 
 	public void Grab(){
-		RaycastHit[] sphereCast = Physics.SphereCastAll(grabArea.position, grabRadius, Vector3.one * grabRadius, grabbableLayers);
+		RaycastHit[] sphereCast = Physics.SphereCastAll(grabArea.position, grabRadius, Vector3.one * grabRadius);
 		if (sphereCast.Length > 0)
 		foreach (RaycastHit hit in sphereCast){
 			if (hit.transform.gameObject.GetComponent<CollectibleItemScript>() && hit.transform.gameObject.tag != "Player"){
 				Debug.Log ("Grabbing something!");
-				inventoryScript.AddItem(hit.transform.gameObject.GetComponent<CollectibleItemScript>().itemType);
-				Destroy (hit.transform.gameObject);
+				hit.transform.gameObject.GetComponent<CollectibleItemScript>().OnGrab();
 				 // TODO: Play audio?
 			}
 

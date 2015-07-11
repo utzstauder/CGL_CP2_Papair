@@ -5,31 +5,36 @@ using UnityEngine.UI;
 public class InventoryScript : MonoBehaviour {
 
 	public enum Item{
-		Key,
 		Butterfly,
 		Blueprint_finished,
 		Energycore
 	}
 
 	[Header("Items")]
-	public bool hasKey = false;
 	public int butterflyCount = 0;
 	public bool hasBlueprint = false;
-	public bool hasCore = false;
+	public bool hasEnergycore = false;
 
 	[Header("Fade animation")]
 	[SerializeField]
 	private float fadeTime = .5f;
 
-	private Image imageKey;
 	private Image imageButterfly;
+	private Text textButterflyCount;
 	private Image imageBlueprint;
 	private Image imageEnergycore;
 
 	// Use this for initialization
 	void Awake () {
-		imageKey = this.transform.FindChild ("GameCanvas/InGameOverlay/InventoryOverlay/Key").GetComponent<Image> ();
-		ClearImageColor (imageKey);
+		imageButterfly = transform.FindChild ("GameCanvas/InGameOverlay/InventoryOverlay/Butterfly").GetComponent<Image> ();
+		textButterflyCount = transform.FindChild ("GameCanvas/InGameOverlay/InventoryOverlay/ButterflyCount").GetComponent<Text> ();
+		imageBlueprint = transform.FindChild ("GameCanvas/InGameOverlay/InventoryOverlay/Blueprint").GetComponent<Image> ();
+		imageEnergycore = transform.FindChild ("GameCanvas/InGameOverlay/InventoryOverlay/Energycore").GetComponent<Image> ();
+
+		ClearImageColor (imageButterfly);
+		ClearTextColor (textButterflyCount);
+		ClearImageColor (imageBlueprint);
+		ClearImageColor (imageEnergycore);
 	}
 	
 	// Update is called once per frame
@@ -39,16 +44,19 @@ public class InventoryScript : MonoBehaviour {
 
 	public void AddItem(Item item){
 		switch (item) {
-		case Item.Key:
-			StartCoroutine(FadeImage(imageKey, 0f, 1f, fadeTime));
-			hasKey = true;
-			break;
 		case Item.Butterfly:
 			butterflyCount += 1;
 			CheckButterflyCount();
 			break;
+		case Item.Blueprint_finished:
+			StartCoroutine(FadeImage(imageBlueprint, 0, 1f, fadeTime));
+			StartCoroutine(FadeImage(imageButterfly, 1f, 0, fadeTime));
+			StartCoroutine(FadeText(textButterflyCount, 1f, 0, fadeTime));
+			hasBlueprint = true;
+			break;
 		case Item.Energycore:
-			hasCore = true;
+			StartCoroutine(FadeImage(imageEnergycore, 0, 1f, fadeTime));
+			hasEnergycore = true;
 			break;
 		default:
 			break;
@@ -57,16 +65,12 @@ public class InventoryScript : MonoBehaviour {
 
 	public void RemoveItem(Item item){
 		switch (item) {
-		case Item.Key:
-			StartCoroutine(FadeImage(imageKey, 1f, 0f, fadeTime));
-			hasKey = false;
-			break;
 		case Item.Butterfly:
 			butterflyCount -= 1;
 			CheckButterflyCount();
 			break;
 		case Item.Energycore:
-			hasCore = false;
+			hasEnergycore = false;
 			break;
 		default:
 			break;
@@ -74,16 +78,31 @@ public class InventoryScript : MonoBehaviour {
 	}
 
 	public void Show(){
-		FillImageColor (imageKey);
+		if (hasEnergycore)
+			FillImageColor (imageEnergycore);
+		if (butterflyCount > 0 && !hasBlueprint) {
+			FillImageColor (imageButterfly);
+			FillTextColor (textButterflyCount);
+		}
+		if (hasBlueprint)
+			FillImageColor (imageBlueprint);
 	}
 
 	public void Hide(){
-		ClearImageColor (imageKey);
+		ClearImageColor (imageEnergycore);
+		ClearImageColor (imageButterfly);
+		ClearTextColor (textButterflyCount);
+		ClearImageColor (imageBlueprint);
 	}
 
 	private void CheckButterflyCount(){
-		if (butterflyCount >= 6)
-			hasBlueprint = true;
+		textButterflyCount.text = " x " + butterflyCount;
+		if (butterflyCount == 1) {
+			StartCoroutine(FadeImage(imageButterfly, 0, 1f, fadeTime));
+			StartCoroutine(FadeText(textButterflyCount, 0, 1f, fadeTime));
+		}
+		else if (butterflyCount >= 6)
+			AddItem (Item.Blueprint_finished);
 		else if (butterflyCount < 0)
 			butterflyCount = 0;
 	}
@@ -96,9 +115,24 @@ public class InventoryScript : MonoBehaviour {
 		image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
 	}
 
+	private void ClearTextColor(Text text){
+		text.color = new Color(text.color.r, text.color.g, text.color.b, 0);
+	}
+	
+	private void FillTextColor(Text text){
+		text.color = new Color(text.color.r, text.color.g, text.color.b, 1f);
+	}
+
 	private IEnumerator FadeImage(Image image, float from, float to, float time){
 		for (float t = 0; t < time; t += Time.deltaTime) {
 			image.color = new Color(image.color.r, image.color.g, image.color.b, Mathf.Lerp (from, to, t/time));
+			yield return new WaitForEndOfFrame();
+		}
+	}
+
+	private IEnumerator FadeText(Text text, float from, float to, float time){
+		for (float t = 0; t < time; t += Time.deltaTime) {
+			text.color = new Color(text.color.r, text.color.g, text.color.b, Mathf.Lerp (from, to, t/time));
 			yield return new WaitForEndOfFrame();
 		}
 	}

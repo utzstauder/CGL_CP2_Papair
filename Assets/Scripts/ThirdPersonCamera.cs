@@ -95,7 +95,36 @@ public class ThirdPersonCamera : MonoBehaviour {
 	private float initialFocalLength;
 	private float initialFocalSize;
 	private float initialAperture;
+	private Transform initialfocalTransform;
 
+	private GlobalFog fog;
+	private float[] fogHeight = {
+		0,
+		0,
+		0,
+		0,
+		0,
+		5,
+		0
+	};
+	private float[] fogHeightDensity= {
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1
+	};
+	private float[] fogStartDistance= {
+		0,
+		0,
+		0,
+		0,
+		0,
+		50,
+		0
+	};
 	// references
 	private GameManagerScript gameManager;
 
@@ -128,6 +157,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 	void Awake() {
 		DontDestroyOnLoad (this.transform.parent.gameObject);
 		gameManager = GameObject.Find ("GameManager").GetComponent<GameManagerScript> ();
+		fog = GetComponent<GlobalFog> ();
 	//	followTransform = GameObject.FindWithTag ("Player").transform;
 	//	follow = followTransform.parent.GetComponent<CharacterControllerLogic>();
 	}
@@ -138,6 +168,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 		initialFocalLength = dof.focalLength;
 		initialFocalSize = dof.focalSize;
 		initialAperture = dof.aperture;
+		initialfocalTransform = dof.focalTransform;
 
 		parentRig = this.transform; // .parent
 		if (parentRig == null){
@@ -164,6 +195,8 @@ public class ThirdPersonCamera : MonoBehaviour {
 		// Set default values for first free look
 		distanceAwayFree = distanceAway;
 		distanceUpFree = distanceUp;
+
+		camSmoothDampTime = 0;
 	}
 	#endregion
 
@@ -371,6 +404,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 				barEffect.coverage = widescreen;
 				targetPosition = cutsceneAnchor.position;
 				lookAt = cutsceneTarget.position;
+				dof.focalTransform = cutsceneTarget;
 			camStatePrev = CamStates.Cutscene;
 				break;
 
@@ -378,7 +412,10 @@ public class ThirdPersonCamera : MonoBehaviour {
 		}
 
 	//	if (camState != CamStates.Free) {
-			CompensateForWalls (characterOffset, ref targetPosition);
+			if (camState != CamStates.Cutscene) CompensateForWalls (characterOffset, ref targetPosition);
+
+		if (camStatePrev == CamStates.Cutscene)
+			camSmoothDampTime = 0;
 
 			SmoothPosition (this.transform.position, targetPosition);
 
@@ -412,6 +449,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 		dof.focalLength = initialFocalLength;
 		dof.focalSize = initialFocalSize;
 		dof.aperture = initialAperture;
+		dof.focalTransform = followTransform;
 
 		if (camStatePrev == CamStates.Cutscene || camStatePrev == CamStates.FixedPosition)
 			camSmoothDampTime = 0;
@@ -424,9 +462,15 @@ public class ThirdPersonCamera : MonoBehaviour {
 	}
 
 
-	//TODO: machen machen
-	private void EnableEffects(){
+	public void SetFog(int levelIndex){
+		fog.enabled = true;
+		fog.height = fogHeight [levelIndex];
+		fog.heightDensity = fogHeightDensity [levelIndex];
+		fog.startDistance = fogStartDistance [levelIndex];
+	}
 
+	public void DisableFog(){
+		fog.enabled = false;
 	}
 
 	#endregion

@@ -9,12 +9,18 @@ public class GameUIControllerScript : MonoBehaviour {
 	private Text textObject;
 	[SerializeField]
 	private Text areaTextObject;
+	[SerializeField]
+	private Image inGameTextPanel;
+	private Animator textBubbleAnimator;
+	[SerializeField]
 	private float textFadeTime = .5f;
+
 
 	// Use this for initialization
 	void Awake () {
 		textObject.color = new Color(textObject.color.r, textObject.color.g, textObject.color.b, 0);
 		areaTextObject.color = new Color(textObject.color.r, textObject.color.g, textObject.color.b, 0);
+		textBubbleAnimator = inGameTextPanel.GetComponent<Animator> ();
 	}
 	
 	// Update is called once per frame
@@ -40,11 +46,21 @@ public class GameUIControllerScript : MonoBehaviour {
 		isDisplaying = true;
 		textObject.text = text;
 
+		if (textObject != areaTextObject) {
+			textBubbleAnimator.SetBool ("showBubble", true);
+			yield return new WaitForSeconds (1f);
+		}
+
 		StartCoroutine(FadeText(textObject, 0f, 1f, textFadeTime));
 		yield return new WaitForSeconds(textFadeTime + time);
 
 		StartCoroutine(FadeText(textObject, 1f, 0f, textFadeTime));
 		yield return new WaitForSeconds(textFadeTime);
+
+		if (textObject != areaTextObject) {
+			textBubbleAnimator.SetBool ("showBubble", false);
+			yield return new WaitForSeconds (1f);
+		}
 
 		isDisplaying = false;
 	}

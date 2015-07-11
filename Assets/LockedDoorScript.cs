@@ -28,41 +28,41 @@ public class LockedDoorScript : MonoBehaviour {
 	}
 
 	public void OnKick(){
-		if (!open) {
-			switch (requiredItem){
-			case InventoryScript.Item.Key:
-				if (inventoryScript.hasKey){
-					if (locked)	gameUIcontrollerScript.DisplayText("It's still locked but I got the key now.", 1f);
-					else OpenDoor ();
-				} else {
-					gameUIcontrollerScript.DisplayText("Kicking isn't any good as long as this door is locked.", 1.5f);
-				}
-				break;
-			default:
-				break;
-			}
-		}
+//		if (!open) {
+//			switch (requiredItem){
+//			case InventoryScript.Item.Key:
+//				if (inventoryScript.hasKey){
+//					if (locked)	gameUIcontrollerScript.DisplayText("It's still locked but I got the key now.", 1f);
+//					else OpenDoor ();
+//				} else {
+//					gameUIcontrollerScript.DisplayText("Kicking isn't any good as long as this door is locked.", 1.5f);
+//				}
+//				break;
+//			default:
+//				break;
+//			}
+//		}
 	}
 
 	public void OnGrab(){
-		if (!open) {
-			switch (requiredItem){
-			case InventoryScript.Item.Key:
-				if (inventoryScript.hasKey){
-					if (locked){
-						locked = false;
-						gameUIcontrollerScript.DisplayText("*click*", 1f);
-						// TODO: play some sound?
-					} else gameUIcontrollerScript.DisplayText("Now that it is unlocked it still seems stuck.", 1f);
-				} else {
-					gameUIcontrollerScript.DisplayText("It's locked.", .5f);
-
-				}
-				break;
-			default:
-				break;
-			}
-		}
+//		if (!open) {
+//			switch (requiredItem){
+//			case InventoryScript.Item.Key:
+//				if (inventoryScript.hasKey){
+//					if (locked){
+//						locked = false;
+//						gameUIcontrollerScript.DisplayText("*click*", 1f);
+//						// TODO: play some sound?
+//					} else gameUIcontrollerScript.DisplayText("Now that it is unlocked it still seems stuck.", 1f);
+//				} else {
+//					gameUIcontrollerScript.DisplayText("It's locked.", .5f);
+//
+//				}
+//				break;
+//			default:
+//				break;
+//			}
+//		}
 	}
 
 	private void OpenDoor(){
