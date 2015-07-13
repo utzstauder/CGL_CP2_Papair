@@ -7,6 +7,8 @@ public class TextAreaTriggerScript : MonoBehaviour {
 	public string text = "Insert text here...";
 	[Header("How long will the text be visible? (in seconds)")]
 	public float time = 1f;
+	
+	public bool onlyOnce = false;
 
 	// Use this for initialization
 	void Start () {

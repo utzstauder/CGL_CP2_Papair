@@ -298,6 +298,14 @@ public class CharacterControllerLogic : MonoBehaviour {
 			if (hit.transform.gameObject.GetComponent<LockedDoorScript>()){
 				hit.transform.gameObject.GetComponent<LockedDoorScript>().OnGrab();
 			}
+
+			if (hit.transform.gameObject.GetComponent<EnergycoreCockpitScript>()){
+				hit.transform.gameObject.GetComponent<EnergycoreCockpitScript>().OnGrab();
+			}
+
+			if (hit.transform.gameObject.GetComponent<EndTheGameButton>()){
+				hit.transform.gameObject.GetComponent<EndTheGameButton>().OnGrab();
+			}
 		}
 	}
 
@@ -343,6 +351,7 @@ public class CharacterControllerLogic : MonoBehaviour {
 		if (other.GetComponent<TextAreaTriggerScript> ()) {
 			TextAreaTriggerScript textScript = other.GetComponent<TextAreaTriggerScript> ();
 			gameUIcontroller.DisplayText(textScript.text, textScript.time);
+			if (textScript.onlyOnce) Destroy (textScript.gameObject);
 		}
 	}
 

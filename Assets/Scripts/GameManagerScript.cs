@@ -10,7 +10,8 @@ public class GameManagerScript : MonoBehaviour {
 		Playing,
 		Transition,
 		Cutscene,
-		Paused
+		Paused,
+		Movie
 	}
 
 //		0: MainMenu
@@ -45,6 +46,12 @@ public class GameManagerScript : MonoBehaviour {
 	private ThirdPersonCamera camera;
 	private Canvas gameCanvas;
 	private Transform mainMenu;
+	private RawImage introMovie;
+	private MovieTexture introMovieTexture;
+	private AudioSource introMovieAudio;
+	private RawImage outroMovie;
+	private MovieTexture outroMovieTexture;
+	private AudioSource outroMovieAudio;
 	private Transform inGameOverlay;
 	private Transform inventoryOverlay;
 	private Image fadeImage;
@@ -92,6 +99,8 @@ public class GameManagerScript : MonoBehaviour {
 
 	[Header("6-Cockpit switches")]
 	public bool visitedCockpit = false;
+	public bool placedEnergycore = false;
+	public bool activatedSwitch = false;
 	#endregion
 
 	// Use this for initialization
@@ -107,10 +116,18 @@ public class GameManagerScript : MonoBehaviour {
 		musicManagerScript = this.transform.FindChild ("MusicManager").GetComponent<MusicManagerScript> ();
 		gameCamera = GameObject.FindGameObjectWithTag ("MainCamera");
 		camera = gameCamera.GetComponent<ThirdPersonCamera> ();
+
 		gameCanvas = transform.FindChild ("GameCanvas").GetComponent<Canvas> ();
 		mainMenu = gameCanvas.transform.FindChild ("MainMenu");
+		introMovie = gameCanvas.transform.FindChild ("IntroMovie").gameObject.GetComponent<RawImage> ();
+		introMovieTexture = (MovieTexture)introMovie.mainTexture;
+		introMovieAudio = introMovie.gameObject.GetComponent<AudioSource> ();
+		outroMovie = gameCanvas.transform.FindChild ("OutroMovie").gameObject.GetComponent<RawImage> ();
+		outroMovieTexture = (MovieTexture)outroMovie.mainTexture;
+		outroMovieAudio = outroMovie.gameObject.GetComponent<AudioSource> ();
 		inGameOverlay = gameCanvas.transform.FindChild ("InGameOverlay");
 		inventoryOverlay = inGameOverlay.FindChild ("InventoryOverlay");
+
 		fadeImage = gameCanvas.transform.FindChild ("FadeImage").GetComponent<Image>();
 		screenOverlay = gameCamera.GetComponent<ScreenOverlay> ();
 
@@ -131,7 +148,6 @@ public class GameManagerScript : MonoBehaviour {
 			if (!mainMenu.gameObject.activeSelf) mainMenu.gameObject.SetActive(true);
 			if (Input.GetButtonDown ("Button A")) {
 				StartGame();
-				gameState = GameState.Playing;
 			}
 			else if (Input.GetButtonDown("Button B")){
 				QuitGame();
@@ -143,6 +159,10 @@ public class GameManagerScript : MonoBehaviour {
 		if (gameState == GameState.Playing || gameState == GameState.Paused) {
 			if (!inventoryOverlay.gameObject.activeSelf) inventoryOverlay.gameObject.SetActive(true);
 		}
+		if (gameState == GameState.Movie) {
+			if (Input.GetButton ("Button A") && Input.GetButton("Button B"))
+				StopMovie();
+		}
 
 	}
 
@@ -153,9 +173,7 @@ public class GameManagerScript : MonoBehaviour {
 	#region mainmenu
 
 	public void StartGame(){
-		musicManagerScript.PlayAll ();
-		StartCoroutine(SceneTransition(Level.Cave));
-		StartCoroutine (ToggleGameObjectAfterTime (mainMenu.gameObject, false, fadeTime));
+		StartCoroutine (PlayIntro ());
 	}
 
 	public void QuitGame(){
@@ -200,7 +218,7 @@ public class GameManagerScript : MonoBehaviour {
 		}
 	}
 
-	public void SetLighthouseSwitch(int switchId){
+	public void SetSwitch(int switchId){
 		switch (switchId) {
 		case 1:
 			activatedSwitch1 = true;
@@ -208,9 +226,28 @@ public class GameManagerScript : MonoBehaviour {
 		case 2:
 			activatedSwitch2 = true;
 			break;
+		case 3:
+			activatedSwitch = true;
+			break;
 		default:
 			break;
 		}
+	}
+
+	private void StopMovie(){
+		MovieTexture movie = (MovieTexture)introMovie.mainTexture;
+		if (introMovieTexture.isPlaying) {
+			introMovieTexture.Stop ();
+			introMovieAudio.Stop ();
+		} else if (outroMovieTexture.isPlaying) {
+			outroMovieTexture.Stop ();
+			outroMovieAudio.Stop ();
+		}
+
+	}
+
+	public void StartOutro(float delayTime){
+		StartCoroutine (PlayOutro (delayTime));
 	}
 	
 	#endregion
@@ -256,6 +293,8 @@ public class GameManagerScript : MonoBehaviour {
 			camera.DisableFog();
 			if (!visitedCave){
 				visitedCave = true;
+				GameObject cutsceneObject = GameObject.Find("Cutscene_CaveIntro");
+				StartCoroutine(PlayCutscene(cutsceneObject, 5f));
 			}
 			break;
 		case 2:
@@ -377,6 +416,50 @@ public class GameManagerScript : MonoBehaviour {
 		// fade in
 		StartCoroutine (Fade (1f, 0, fadeTime/2));
 
+	}
+
+	private IEnumerator PlayIntro(){
+		gameState = GameState.Movie;
+
+		StartCoroutine (Fade (0, 1f, fadeTime));
+		StartCoroutine (ToggleGameObjectAfterTime (mainMenu.gameObject, false, fadeTime));
+		yield return new WaitForSeconds (fadeTime);
+		StartCoroutine (Fade (1f, 0, 0));
+
+		introMovie.enabled = true;
+
+		introMovieTexture.Play ();
+		introMovieAudio.Play ();
+
+		while (introMovieTexture.isPlaying) yield return new WaitForEndOfFrame();
+
+		//once it is done playing load first level
+		musicManagerScript.PlayAll ();
+		StartCoroutine(SceneTransition(Level.Cave));
+
+		yield return new WaitForSeconds (fadeTime);
+		gameState = GameState.Playing;
+		introMovie.enabled = false;
+	}
+
+
+	private IEnumerator PlayOutro(float delayTime){
+		gameState = GameState.Movie;
+		yield return new WaitForSeconds (delayTime);
+		
+		outroMovie.enabled = true;
+		
+		outroMovieTexture.Play ();
+		outroMovieAudio.Play ();
+		
+		while (outroMovieTexture.isPlaying) yield return new WaitForEndOfFrame();
+		
+		yield return new WaitForSeconds (fadeTime);
+
+
+		// TODO: end game? oder watt?!
+		Application.LoadLevel (0);
+		Destroy (this.gameObject);
 	}
 
 	#endregion

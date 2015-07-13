@@ -4,7 +4,7 @@ using System.Collections;
 public class LighthouseSwitchScript : MonoBehaviour {
 
 	[SerializeField]
-	[Range(1,2)]
+	[Range(1,3)]
 	private int switchId = 0;
 
 	private GameManagerScript gameMangagerScript;
@@ -22,7 +22,7 @@ public class LighthouseSwitchScript : MonoBehaviour {
 		audioSource = GetComponent<AudioSource> ();
 
 		// set active if already activated
-		if ((switchId == 1 && gameMangagerScript.activatedSwitch1) || (switchId == 2 && gameMangagerScript.activatedSwitch2)) {
+		if ((switchId == 1 && gameMangagerScript.activatedSwitch1) || (switchId == 2 && gameMangagerScript.activatedSwitch2) || (switchId == 3 && gameMangagerScript.activatedSwitch)) {
 			activated = true;
 			animator.SetBool("Activated", activated); 
 		}
@@ -30,10 +30,13 @@ public class LighthouseSwitchScript : MonoBehaviour {
 
 	public void OnKick(){
 		if (!activated) {
+
+			if (!(switchId == 3 && !gameMangagerScript.placedEnergycore)){
 			audioSource.Play();
 			activated = true;
 			animator.SetBool("Activated", activated);
-			gameMangagerScript.SetLighthouseSwitch(switchId);
+			gameMangagerScript.SetSwitch(switchId);
+			}
 
 			if (switchId == 1)
 				gameMangagerScript.PlayCutsceneExternal(GameObject.Find ("Cutscene_LighthouseSwitch1"), 4f);

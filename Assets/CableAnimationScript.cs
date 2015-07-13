@@ -20,6 +20,8 @@ public class CableAnimationScript : MonoBehaviour {
 	private bool deactivateBySwitch2= false;
 	[SerializeField]
 	private bool deactivateByEnergycore = false;
+	[SerializeField]
+	private bool activateByEnergycore = false;
 	
 	private GameManagerScript gameManagerScript;
 
@@ -40,6 +42,10 @@ public class CableAnimationScript : MonoBehaviour {
 			active = false;
 			Destroy (this);
 		}
+
+		if (activateByEnergycore && !gameManagerScript.activatedSwitch) {
+			active = false;
+		}
 	}
 	
 	// Update is called once per frame
@@ -49,6 +55,10 @@ public class CableAnimationScript : MonoBehaviour {
 		    (deactivateByEnergycore && gameManagerScript.collectedEnergycore)) {
 			active = false;
 			Destroy (this);
+		}
+
+		if (activateByEnergycore && gameManagerScript.activatedSwitch) {
+			active = true;
 		}
 
 		if (active) {
