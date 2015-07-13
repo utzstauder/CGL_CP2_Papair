@@ -12,6 +12,7 @@ ModelImporter:
     2300000: Rampe
     3300000: Rampe
     4300000: Rampe
+    6400000: Rampe
   materials:
     importMaterials: 1
     materialName: 0
@@ -35,9 +36,9 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: .0299999993
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0

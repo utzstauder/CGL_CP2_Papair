@@ -24,12 +24,16 @@ public class InventoryScript : MonoBehaviour {
 	private Image imageBlueprint;
 	private Image imageEnergycore;
 
+	private GameUIControllerScript gameUiControllerScript;
+
 	// Use this for initialization
 	void Awake () {
 		imageButterfly = transform.FindChild ("GameCanvas/InGameOverlay/InventoryOverlay/Butterfly").GetComponent<Image> ();
 		textButterflyCount = transform.FindChild ("GameCanvas/InGameOverlay/InventoryOverlay/ButterflyCount").GetComponent<Text> ();
 		imageBlueprint = transform.FindChild ("GameCanvas/InGameOverlay/InventoryOverlay/Blueprint").GetComponent<Image> ();
 		imageEnergycore = transform.FindChild ("GameCanvas/InGameOverlay/InventoryOverlay/Energycore").GetComponent<Image> ();
+
+		gameUiControllerScript = GetComponent<GameUIControllerScript> ();
 
 		ClearImageColor (imageButterfly);
 		ClearTextColor (textButterflyCount);
@@ -53,6 +57,9 @@ public class InventoryScript : MonoBehaviour {
 			StartCoroutine(FadeImage(imageButterfly, 1f, 0, fadeTime));
 			StartCoroutine(FadeText(textButterflyCount, 1f, 0, fadeTime));
 			hasBlueprint = true;
+
+			gameUiControllerScript.DisplayText("Now that I put the blueprints back together I need to get that energycore from the lighthouse.", 3f);
+
 			break;
 		case Item.Energycore:
 			StartCoroutine(FadeImage(imageEnergycore, 0, 1f, fadeTime));

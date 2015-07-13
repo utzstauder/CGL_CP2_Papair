@@ -23,27 +23,27 @@ public class CollectibleItemScript : MonoBehaviour {
 			switch (butterflyNumber){
 			case 1:
 				if (gameManagerScript.collectedButterfly1)
-					Destroy(this);
+					Destroy(this.gameObject);
 				break;
 			case 2:
 				if (gameManagerScript.collectedButterfly2)
-					Destroy(this);
+					Destroy(this.gameObject);
 				break;
 			case 3:
 				if (gameManagerScript.collectedButterfly3)
-					Destroy(this);
+					Destroy(this.gameObject);
 				break;
 			case 4:
 				if (gameManagerScript.collectedButterfly4)
-					Destroy(this);
+					Destroy(this.gameObject);
 				break;
 			case 5:
 				if (gameManagerScript.collectedButterfly5)
-					Destroy(this);
+					Destroy(this.gameObject);
 				break;
 			case 6:
 				if (gameManagerScript.collectedButterfly6)
-					Destroy(this);
+					Destroy(this.gameObject);
 				break;
 			default:
 				break;

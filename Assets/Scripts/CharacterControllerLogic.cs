@@ -267,8 +267,11 @@ public class CharacterControllerLogic : MonoBehaviour {
 				}
 				
 				if (hit.transform.gameObject.GetComponent<LighthouseSwitchScript>()){
-				Debug.Log ("Hit a switch!");
 				hit.transform.gameObject.GetComponent<LighthouseSwitchScript>().OnKick();
+				}
+
+				if (hit.transform.gameObject.GetComponent<WaterpumpButtonScript>()){
+					hit.transform.gameObject.GetComponent<WaterpumpButtonScript>().OnKick();
 				}
 			}
 //		if (Physics.Raycast(this.transform.position, this.transform.forward, out hit, kickableLayers)){

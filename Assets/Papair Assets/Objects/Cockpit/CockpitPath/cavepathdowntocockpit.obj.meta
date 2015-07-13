@@ -1,0 +1,209 @@
+fileFormatVersion: 2
+guid: d4a6067d6195dbc4eba4eaea552ea5c0
+timeCreated: 1436728178
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Rampe
+    100004: Stalagmite
+    100006: Stalagmite001
+    100008: Stalagmite002
+    100010: Stalagmite003
+    100012: Stalagmite004
+    100014: Stalagmite005
+    100016: Stalagmite006
+    100018: Stalagmite007
+    100020: Stalagmite008
+    100022: Stalagmite009
+    100024: Stalagmite010
+    100026: Stalagmite011
+    100028: Stalagmite012
+    100030: Stalagmite013
+    100032: Stalagmite014
+    100034: Stalagmite015
+    100036: Stalagmite016
+    100038: Stalagmite017
+    100040: Stalagmite018
+    100042: Stalagmite019
+    100044: Stalagmite020
+    100046: Stalagmite021
+    400000: //RootNode
+    400002: Rampe
+    400004: Stalagmite
+    400006: Stalagmite001
+    400008: Stalagmite002
+    400010: Stalagmite003
+    400012: Stalagmite004
+    400014: Stalagmite005
+    400016: Stalagmite006
+    400018: Stalagmite007
+    400020: Stalagmite008
+    400022: Stalagmite009
+    400024: Stalagmite010
+    400026: Stalagmite011
+    400028: Stalagmite012
+    400030: Stalagmite013
+    400032: Stalagmite014
+    400034: Stalagmite015
+    400036: Stalagmite016
+    400038: Stalagmite017
+    400040: Stalagmite018
+    400042: Stalagmite019
+    400044: Stalagmite020
+    400046: Stalagmite021
+    2300000: Rampe
+    2300002: Stalagmite
+    2300004: Stalagmite001
+    2300006: Stalagmite002
+    2300008: Stalagmite003
+    2300010: Stalagmite004
+    2300012: Stalagmite005
+    2300014: Stalagmite006
+    2300016: Stalagmite007
+    2300018: Stalagmite008
+    2300020: Stalagmite009
+    2300022: Stalagmite010
+    2300024: Stalagmite011
+    2300026: Stalagmite012
+    2300028: Stalagmite013
+    2300030: Stalagmite014
+    2300032: Stalagmite015
+    2300034: Stalagmite016
+    2300036: Stalagmite017
+    2300038: Stalagmite018
+    2300040: Stalagmite019
+    2300042: Stalagmite020
+    2300044: Stalagmite021
+    3300000: Rampe
+    3300002: Stalagmite
+    3300004: Stalagmite001
+    3300006: Stalagmite002
+    3300008: Stalagmite003
+    3300010: Stalagmite004
+    3300012: Stalagmite005
+    3300014: Stalagmite006
+    3300016: Stalagmite007
+    3300018: Stalagmite008
+    3300020: Stalagmite009
+    3300022: Stalagmite010
+    3300024: Stalagmite011
+    3300026: Stalagmite012
+    3300028: Stalagmite013
+    3300030: Stalagmite014
+    3300032: Stalagmite015
+    3300034: Stalagmite016
+    3300036: Stalagmite017
+    3300038: Stalagmite018
+    3300040: Stalagmite019
+    3300042: Stalagmite020
+    3300044: Stalagmite021
+    4300000: Rampe
+    4300002: Stalagmite
+    4300004: Stalagmite001
+    4300006: Stalagmite002
+    4300008: Stalagmite003
+    4300010: Stalagmite004
+    4300012: Stalagmite005
+    4300014: Stalagmite006
+    4300016: Stalagmite007
+    4300018: Stalagmite008
+    4300020: Stalagmite009
+    4300022: Stalagmite010
+    4300024: Stalagmite011
+    4300026: Stalagmite012
+    4300028: Stalagmite013
+    4300030: Stalagmite014
+    4300032: Stalagmite015
+    4300034: Stalagmite016
+    4300036: Stalagmite017
+    4300038: Stalagmite018
+    4300040: Stalagmite019
+    4300042: Stalagmite020
+    4300044: Stalagmite021
+    6400000: Rampe
+    6400002: Stalagmite
+    6400004: Stalagmite001
+    6400006: Stalagmite002
+    6400008: Stalagmite003
+    6400010: Stalagmite004
+    6400012: Stalagmite005
+    6400014: Stalagmite006
+    6400016: Stalagmite007
+    6400018: Stalagmite008
+    6400020: Stalagmite009
+    6400022: Stalagmite010
+    6400024: Stalagmite011
+    6400026: Stalagmite012
+    6400028: Stalagmite013
+    6400030: Stalagmite014
+    6400032: Stalagmite015
+    6400034: Stalagmite016
+    6400036: Stalagmite017
+    6400038: Stalagmite018
+    6400040: Stalagmite019
+    6400042: Stalagmite020
+    6400044: Stalagmite021
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .0299999993
+    meshCompression: 0
+    addColliders: 1
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -263,13 +263,15 @@ public class GameManagerScript : MonoBehaviour {
 			if (!visitedYard){
 				visitedYard = true;
 				GameObject cutsceneObject = GameObject.Find("Cutscene_YardIntro");
-				StartCoroutine(PlayCutscene(cutsceneObject, cutsceneDuration));
+				StartCoroutine(PlayCutscene(cutsceneObject, 5f));
 			}
 			break;
 		case 3:
 			camera.SetFog(targetScene);
 			if (!visitedForest){
 				visitedForest = true;
+				GameObject cutsceneObject = GameObject.Find("Cutscene_ForestIntro");
+				StartCoroutine(PlayCutscene(cutsceneObject, 5f));
 			}
 			break;
 		case 4:
